@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {KeyboardEvent,SetStateAction, useState} from "react";
 
 type PropsTypes = {
     title: string,
@@ -14,17 +14,19 @@ export type FilterValuesTypes = 'All' | 'Active' | 'Completed'
 
 export function Todolist(props: PropsTypes) {
     let [textTask, setTextTask] = useState<string>('')
+    const addTask = (e: KeyboardEvent) => {
+        if (e.key === 'Enter') {
+            props.addTask(textTask)
+            setTextTask('')
+        }
+    }
+    const changeInput=(e: { currentTarget: { value: React.SetStateAction<string>; }; }) => {
+        setTextTask(e.currentTarget.value);
+    }
     return (
         <div>
             <h3>{props.title}</h3>
-            <div><input value={textTask} onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                    props.addTask(textTask)
-                    setTextTask('')
-                }
-            }} onChange={(e) => {
-                setTextTask(e.currentTarget.value);
-            }}/>
+            <div><input value={textTask} onKeyDown={addTask} onChange={changeInput}/>
                 <button onClick={() => {
                     props.addTask(textTask)
                     setTextTask('')
