@@ -21,7 +21,10 @@ function App() {
         setTasks([{id: uuid(), title: title, isDone: false},...Tasks])
     }
     let setCompleted=(isDone: boolean,id:string)=>{
-
+let task=Tasks.find(t=>t.id===id)
+        if(task){task.isDone=isDone}
+        let copy=[...Tasks]
+        setTasks(copy)
     }
     if(filter==='Completed'){
 taskForList=Tasks.filter(t=>t.isDone)
@@ -32,7 +35,9 @@ taskForList=Tasks.filter(t=>!t.isDone)
     return (
         <div className={'App'}>
             <Todolist title={'Cars'} task={taskForList} removeTask={removeTask}
-                      changeFilter={changeFilter} addTask={addTask}/>
+                      changeFilter={changeFilter} addTask={addTask}
+                      setCompleted={setCompleted}
+            />
         </div>
 
     );

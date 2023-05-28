@@ -1,11 +1,13 @@
-import React, {KeyboardEvent,SetStateAction, useState} from "react";
+import React, {KeyboardEvent, SetStateAction, useState} from "react";
+import './Todolist.css'
 
 type PropsTypes = {
     title: string,
     task: TaskType[],
     removeTask: (value: string) => void,
     changeFilter: (value: FilterValuesTypes) => void,
-    addTask: (title: string) => void
+    addTask: (title: string) => void,
+    setCompleted: (isDone: boolean, id: string) => void
 }
 export type TaskType = {
     id: string, title: string, isDone: boolean
@@ -14,44 +16,69 @@ export type FilterValuesTypes = 'All' | 'Active' | 'Completed'
 
 export function Todolist(props: PropsTypes) {
     let [textTask, setTextTask] = useState<string>('')
-    const addTask = (e: KeyboardEvent) => {
+    const addTaskOnKeyDown = (e: KeyboardEvent) => {
         if (e.key === 'Enter') {
-            props.addTask(textTask)
+            if (textTask.trim() === '') {
+                setError('Field is required')
+                return
+            }
+            props.addTask(textTask.trim())
             setTextTask('')
+        }else {
+            setError('')
         }
     }
-    const changeInput=(e: { currentTarget: { value: React.SetStateAction<string>; }; }) => {
-        setTextTask(e.currentTarget.value);
+    const addTaskOnClick = () => {
+        if (textTask.trim() === '') {
+            setError('Field is required')
+            return
+        }
+        props.addTask(textTask.trim())
+        setTextTask('')
     }
+    const changeInput = (e: { currentTarget: { value: SetStateAction<string> } }) =>
+        setTextTask(e.currentTarget.value);
+    const filterAll = () => {
+        props.changeFilter('All')
+    }
+    const filterActive = () => {
+        props.changeFilter('Active')
+    }
+    const filterCompleted = () => {
+        props.changeFilter('Completed')
+    }
+    let [error, setError] = useState('')
     return (
         <div>
             <h3>{props.title}</h3>
-            <div><input value={textTask} onKeyDown={addTask} onChange={changeInput}/>
-                <button onClick={() => {
-                    props.addTask(textTask)
-                    setTextTask('')
-                }}>+
-                </button>
+            <div><input value={textTask} onKeyDown={addTaskOnKeyDown}
+                        className={error && 'error'}
+                        onChange={changeInput}/>
+                <button onClick={addTaskOnClick}>+</button>
+                {error && <div className={'message-error'}>{error}</div>}
             </div>
             <ul>
                 {
-                    props.task.map(t => <li><input type="checkbox" checked={t.isDone}/>
-                        <span>{t.title}</span>
-                        <button onClick={() => props.removeTask(t.id)}>X</button>
-                    </li>)
+                    props.task.map(t => {
+                        const removeTask = () => props.removeTask(t.id)
+
+                        return <li key={t.id}><input type="checkbox" checked={t.isDone}
+                                                     onChange={(e) => {
+                                                         props.setCompleted(e.currentTarget.checked, t.id)
+                                                     }
+                                                     }
+                        />
+                            <span>{t.title}</span>
+                            <button onClick={removeTask}>X</button>
+                        </li>
+                    })
                 }
             </ul>
-            <button onClick={() => {
-                props.changeFilter('All')
-            }}>All
+            <button onClick={filterAll}>All
             </button>
-            <button onClick={() => {
-                props.changeFilter('Active')
-            }}>Active
+            <button onClick={filterActive}>Active
             </button>
-            <button onClick={() => {
-                props.changeFilter('Completed')
-            }}>Completed
+            <button onClick={filterCompleted}>Completed
             </button>
         </div>
     )
