@@ -5,9 +5,9 @@ import { v4 as uuid } from 'uuid';
 
 function App() {
     let [Tasks,setTasks]=useState<TaskType[]>([
-        {id:uuid(),title:'Porch',isDone:true},
-        {id:uuid(),title:'Tesla',isDone:false},
-        {id:uuid(),title:'Jeep',isDone:true},
+        {id:uuid(),title:'Change engine oil',isDone:true},
+        {id:uuid(),title:'Change rubier',isDone:false},
+        {id:uuid(),title:'Washing',isDone:true},
     ])
     let [filter,setFilter]=useState<FilterValuesTypes>('All')
     let changeFilter=(value:FilterValuesTypes)=>{
@@ -34,9 +34,10 @@ taskForList=Tasks.filter(t=>!t.isDone)
     }
     return (
         <div className={'App'}>
-            <Todolist title={'Cars'} task={taskForList} removeTask={removeTask}
+            <Todolist title={'Posh Panamera'} task={taskForList} removeTask={removeTask}
                       changeFilter={changeFilter} addTask={addTask}
                       setCompleted={setCompleted}
+                      filter={filter}
             />
         </div>
 

@@ -4,3 +4,9 @@
 .message-error{
   color: red;
 }
+.filter{
+  background-color: grey;
+}
+.is-done{
+  opacity: 0.5;
+}
