@@ -2,10 +2,11 @@ import React, {KeyboardEvent, SetStateAction, useState} from "react";
 import './Todolist.css'
 
 type PropsTypes = {
+    id:string,
     title: string,
     task: TaskType[],
     removeTask: (value: string) => void,
-    changeFilter: (value: FilterValuesTypes) => void,
+    changeFilter: (value: FilterValuesTypes,id:string) => void,
     addTask: (title: string) => void,
     setCompleted: (isDone: boolean, id: string) => void,
     filter: FilterValuesTypes
@@ -40,13 +41,13 @@ export function Todolist(props: PropsTypes) {
     const changeInput = (e: { currentTarget: { value: SetStateAction<string> } }) =>
         setTextTask(e.currentTarget.value);
     const filterAll = () => {
-        props.changeFilter('All')
+        props.changeFilter('All',props.id)
     }
     const filterActive = () => {
-        props.changeFilter('Active')
+        props.changeFilter('Active',props.id)
     }
     const filterCompleted = () => {
-        props.changeFilter('Completed')
+        props.changeFilter('Completed',props.id)
     }
     let [error, setError] = useState('')
     return (
