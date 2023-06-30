@@ -1,8 +1,7 @@
 import React, {KeyboardEvent, SetStateAction, useState} from "react";
 
 type AddTaskFormTypes = {
-    addTask: (tittle: string, listId: string) => void,
-    id: string
+    addTask: (tittle: string) => void
 }
 
 export function AddTaskForm(props: AddTaskFormTypes) {
@@ -14,7 +13,7 @@ export function AddTaskForm(props: AddTaskFormTypes) {
                 setError('Field is required')
                 return
             }
-            props.addTask(textTask.trim(), props.id)
+            props.addTask(textTask.trim())
             setTextTask('')
         } else {
             setError('')
@@ -25,7 +24,7 @@ export function AddTaskForm(props: AddTaskFormTypes) {
             setError('Field is required')
             return
         }
-        props.addTask(textTask.trim(), props.id)
+        props.addTask(textTask.trim())
         setTextTask('')
     }
     const changeInput = (e: { currentTarget: { value: SetStateAction<string> } }) =>

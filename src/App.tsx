@@ -3,6 +3,7 @@ import './App.css';
 import {FilterValuesTypes, TaskType, Todolist} from "./Todolist";
 import {v4 as uuid} from 'uuid';
 import {types} from "util";
+import {AddTaskForm} from "./AddTaskForm";
 
 type ToDoListsTypes = {
     id: string,
@@ -67,6 +68,7 @@ function App() {
 
     return (
         <div className={'App'}>
+            <AddTaskForm addTask={(tittle:string)=>{alert(tittle)}}/>
             {
                 ToDoLists.map(tl => {
                     let taskForList = TasksObj[tl.id]
