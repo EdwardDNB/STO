@@ -2,19 +2,21 @@ import React, {KeyboardEvent, SetStateAction, useState} from "react";
 import './Todolist.css'
 
 type PropsTypes = {
-    id:string,
+    id: string,
     title: string,
     task: TaskType[],
-    removeTask: (value: string,id:string) => void,
-    changeFilter: (value: FilterValuesTypes,id:string) => void,
-    addTask: (title: string,idList:string) => void,
-    setCompleted: (isDone: boolean, id: string,listId:string) => void,
-    filter: FilterValuesTypes
+    removeTask: (value: string, id: string) => void,
+    changeFilter: (value: FilterValuesTypes, id: string) => void,
+    addTask: (title: string, idList: string) => void,
+    setCompleted: (isDone: boolean, id: string, listId: string) => void,
+    filter: FilterValuesTypes,
+    removeTodolist: (id: string) => void
 }
 export type TaskType = {
     id: string, title: string, isDone: boolean
 }
 export type FilterValuesTypes = 'All' | 'Active' | 'Completed'
+
 
 export function Todolist(props: PropsTypes) {
     let [textTask, setTextTask] = useState<string>('')
@@ -24,7 +26,7 @@ export function Todolist(props: PropsTypes) {
                 setError('Field is required')
                 return
             }
-            props.addTask(textTask.trim(),props.id)
+            props.addTask(textTask.trim(), props.id)
             setTextTask('')
         } else {
             setError('')
@@ -35,23 +37,29 @@ export function Todolist(props: PropsTypes) {
             setError('Field is required')
             return
         }
-        props.addTask(textTask.trim(),props.id)
+        props.addTask(textTask.trim(), props.id)
         setTextTask('')
     }
     const changeInput = (e: { currentTarget: { value: SetStateAction<string> } }) =>
         setTextTask(e.currentTarget.value);
     const filterAll = () => {
-        props.changeFilter('All',props.id)
+        props.changeFilter('All', props.id)
     }
     const filterActive = () => {
-        props.changeFilter('Active',props.id)
+        props.changeFilter('Active', props.id)
     }
     const filterCompleted = () => {
-        props.changeFilter('Completed',props.id)
+        props.changeFilter('Completed', props.id)
     }
     let [error, setError] = useState('')
+
+    function removeTodolist() {
+        props.removeTodolist(props.id)
+    }
+
     return (
         <div>
+            <button onClick={removeTodolist}>x</button>
             <h3>{props.title}</h3>
             <div><input value={textTask} onKeyDown={addTaskOnKeyDown}
                         className={error && 'error'}
@@ -62,7 +70,7 @@ export function Todolist(props: PropsTypes) {
             <ul>
                 {
                     props.task.map(t => {
-                        const removeTask = () => props.removeTask(t.id,props.id)
+                        const removeTask = () => props.removeTask(t.id, props.id)
 
                         return <li
                             className={t.isDone ? 'is-done' : ''}
@@ -71,7 +79,7 @@ export function Todolist(props: PropsTypes) {
                                 type="checkbox"
                                 checked={t.isDone}
                                 onChange={(e) => {
-                                    props.setCompleted(e.currentTarget.checked, t.id,props.id)
+                                    props.setCompleted(e.currentTarget.checked, t.id, props.id)
                                 }
                                 }
                             />
