@@ -1,6 +1,7 @@
 import React from "react";
 import './Todolist.css'
-import {AddTaskForm} from "./AddTaskForm";
+import {AddItemForm} from "./AddItemForm";
+import {EditableSpan} from "./EditableSpan";
 
 type PropsTypes = {
     id: string,
@@ -12,6 +13,9 @@ type PropsTypes = {
     setCompleted: (isDone: boolean, id: string, listId: string) => void,
     filter: FilterValuesTypes,
     removeTodolist: (id: string) => void
+    changeTaskTitle:(id:string,title:string,idList:string)=>void,
+    changeTodoListTitle:(title:string,idList:string)=>void
+
 }
 export type TaskType = {
     id: string, title: string, isDone: boolean
@@ -34,18 +38,29 @@ export function Todolist(props: PropsTypes) {
     function removeTodolist() {
         props.removeTodolist(props.id)
     }
-function addTask(title:string) {
-    props.addTask(title,props.id)
-}
+
+    function addTask(title: string) {
+        props.addTask(title, props.id)
+    }
+
+
+    function changeTodoListTitle(title:string) {
+        props.changeTodoListTitle(title,props.id)
+    }
+
     return (
         <div>
             <button onClick={removeTodolist}>x</button>
-            <h3>{props.title}</h3>
-            <AddTaskForm addTask={addTask}/>
+            <h3><EditableSpan changeTaskTitle={changeTodoListTitle} title={props.title}/></h3>
+            <AddItemForm addItem={addTask}/>
             <ul>
                 {
                     props.task.map(t => {
                         const removeTask = () => props.removeTask(t.id, props.id)
+
+                        function changeTaskTitle(title: string) {
+                            props.changeTaskTitle( t.id,title,props.id)
+                        }
 
                         return <li
                             className={t.isDone ? 'is-done' : ''}
@@ -58,7 +73,7 @@ function addTask(title:string) {
                                 }
                                 }
                             />
-                            <span>{t.title}</span>
+                            <EditableSpan title={t.title} changeTaskTitle={changeTaskTitle}/>
                             <button onClick={removeTask}>X</button>
                         </li>
                     })
@@ -76,4 +91,3 @@ function addTask(title:string) {
         </div>
     )
 }
-

@@ -3,14 +3,16 @@ import './App.css';
 import {FilterValuesTypes, TaskType, Todolist} from "./Todolist";
 import {v4 as uuid} from 'uuid';
 import {types} from "util";
-import {AddTaskForm} from "./AddTaskForm";
+import {AddItemForm} from "./AddItemForm";
 
 type ToDoListsTypes = {
     id: string,
     title: string,
     filter: FilterValuesTypes
 }
-
+type TaskStateType={
+    [key:string]:Array<TaskType>
+}
 function App() {
     const task1 = uuid()
     const task2 = uuid()
@@ -18,7 +20,7 @@ function App() {
         {id: task1, title: 'Posh Panamera', filter: 'All'},
         {id: task2, title: 'Ford Mustang GT', filter: 'Active'},
     ])
-    let [TasksObj, setTasksObj] = useState({
+    let [TasksObj, setTasksObj] = useState<TaskStateType>({
         [task1]: [
             {id: uuid(), title: 'Change engine oil', isDone: true},
             {id: uuid(), title: 'Change rubier', isDone: false},
@@ -65,10 +67,15 @@ function App() {
         setTasksObj(copy)
     }
 
+    function addTodoList(title: string) {
+        const todoList:ToDoListsTypes={id: uuid(), title: title, filter: 'All'}
+        setToDoLists([todoList, ...ToDoLists])
+        setTasksObj({[todoList.id]:[],...TasksObj})
+    }
 
     return (
         <div className={'App'}>
-            <AddTaskForm addTask={(tittle:string)=>{alert(tittle)}}/>
+            <AddItemForm addItem={addTodoList}/>
             {
                 ToDoLists.map(tl => {
                     let taskForList = TasksObj[tl.id]
@@ -78,7 +85,27 @@ function App() {
                     if (tl.filter === 'Active') {
                         taskForList = taskForList.filter(t => !t.isDone)
                     }
+
+                    function changeTaskTitle(id: string, title: string,idList:string) {
+                        let task = TasksObj[idList].find(t => t.id === id)
+                        if (task) {
+                            task.title = title
+                        }
+                        let copy = {...TasksObj}
+                        setTasksObj(copy)
+                    }
+
+                    function changeTodoListTitle(title: string, idList: string): void {
+                       const list= ToDoLists.find(l=>l.id===idList)
+                        if(list){
+                            list.title=title
+                        }
+                        setToDoLists([...ToDoLists])
+                    }
+
                     return <Todolist
+                        changeTodoListTitle={changeTodoListTitle}
+                        changeTaskTitle={changeTaskTitle}
                         key={tl.id}
                         id={tl.id}
                         title={tl.title} task={taskForList} removeTask={removeTask}
