@@ -2,6 +2,7 @@ import React from "react";
 import './Todolist.css'
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
+import {Button} from "@mui/material";
 
 type PropsTypes = {
     id: string,
@@ -74,7 +75,7 @@ export function Todolist(props: PropsTypes) {
                                 }
                             />
                             <EditableSpan title={t.title} changeTaskTitle={changeTaskTitle}/>
-                            <button onClick={removeTask}>X</button>
+                            <Button onClick={removeTask}>X</Button>
                         </li>
                     })
                 }
