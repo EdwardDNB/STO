@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import './App.css';
 import {FilterValuesTypes, TaskType, Todolist} from "./Todolist";
 import {v4 as uuid} from 'uuid';
-import {types} from "util";
 import {AddItemForm} from "./AddItemForm";
 
 type ToDoListsTypes = {
@@ -75,7 +74,7 @@ function App() {
 
     return (
         <div className={'App'}>
-            <AddItemForm addItem={addTodoList}/>
+            <AddItemForm addItem={addTodoList} label={'add car'}/>
             {
                 ToDoLists.map(tl => {
                     let taskForList = TasksObj[tl.id]

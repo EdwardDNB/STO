@@ -1,9 +1,10 @@
 import React, {KeyboardEvent, SetStateAction, useState} from "react";
-import {Button} from "@mui/material";
+import {IconButton, TextField} from "@mui/material";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 type AddItemFormTypes = {
-    addItem: (tittle: string) => void
+    addItem: (tittle: string) => void,
+    label: string
 }
 
 export function AddItemForm(props: AddItemFormTypes) {
@@ -31,10 +32,12 @@ export function AddItemForm(props: AddItemFormTypes) {
     }
     const changeInput = (e: { currentTarget: { value: SetStateAction<string> } }) =>
         setText(e.currentTarget.value);
-    return <div><input value={text} onKeyDown={addItemOnKeyDown}
-                       className={error && 'error'}
-                       onChange={changeInput}/>
-        <Button onClick={addItemOnClick} endIcon={<AddCircleOutlineIcon />}>Add</Button>
-        {error && <div className={'message-error'}>{error}</div>}
-    </div>
+    return <div>
+        <TextField id="outlined-multiline-static" label={error? error: props.label} variant="outlined"
+                   value={text} onKeyDown={addItemOnKeyDown}
+                   error={!!error}
+                   onChange={changeInput}
+        />
+        <IconButton size="large" onClick={addItemOnClick} color="primary"><AddCircleOutlineIcon/></IconButton>
+            </div>
 }

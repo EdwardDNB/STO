@@ -2,7 +2,8 @@ import React from "react";
 import './Todolist.css'
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
-import {Button} from "@mui/material";
+import {Button, Checkbox, IconButton} from "@mui/material";
+import {Delete} from "@mui/icons-material";
 
 type PropsTypes = {
     id: string,
@@ -14,8 +15,8 @@ type PropsTypes = {
     setCompleted: (isDone: boolean, id: string, listId: string) => void,
     filter: FilterValuesTypes,
     removeTodolist: (id: string) => void
-    changeTaskTitle:(id:string,title:string,idList:string)=>void,
-    changeTodoListTitle:(title:string,idList:string)=>void
+    changeTaskTitle: (id: string, title: string, idList: string) => void,
+    changeTodoListTitle: (title: string, idList: string) => void
 
 }
 export type TaskType = {
@@ -45,29 +46,32 @@ export function Todolist(props: PropsTypes) {
     }
 
 
-    function changeTodoListTitle(title:string) {
-        props.changeTodoListTitle(title,props.id)
+    function changeTodoListTitle(title: string) {
+        props.changeTodoListTitle(title, props.id)
     }
 
     return (
         <div>
-            <button onClick={removeTodolist}>x</button>
-            <h3><EditableSpan changeTaskTitle={changeTodoListTitle} title={props.title}/></h3>
-            <AddItemForm addItem={addTask}/>
+
+            <h3><EditableSpan changeTaskTitle={changeTodoListTitle} title={props.title}/>
+                <IconButton onClick={removeTodolist}>
+                    <Delete/>
+                </IconButton>
+            </h3>
+            <AddItemForm addItem={addTask} label={'add task'}/>
             <ul>
                 {
                     props.task.map(t => {
                         const removeTask = () => props.removeTask(t.id, props.id)
 
                         function changeTaskTitle(title: string) {
-                            props.changeTaskTitle( t.id,title,props.id)
+                            props.changeTaskTitle(t.id, title, props.id)
                         }
 
                         return <li
                             className={t.isDone ? 'is-done' : ''}
                             key={t.id}>
-                            <input
-                                type="checkbox"
+                            <Checkbox
                                 checked={t.isDone}
                                 onChange={(e) => {
                                     props.setCompleted(e.currentTarget.checked, t.id, props.id)
@@ -75,20 +79,22 @@ export function Todolist(props: PropsTypes) {
                                 }
                             />
                             <EditableSpan title={t.title} changeTaskTitle={changeTaskTitle}/>
-                            <Button onClick={removeTask}>X</Button>
+                            <IconButton onClick={removeTask}>
+                                <Delete/>
+                            </IconButton>
                         </li>
                     })
                 }
             </ul>
-            <button className={props.filter === 'All' ? 'filter' : ''}
+            <Button variant={props.filter === 'All' ? 'contained' : 'text'}
                     onClick={filterAll}>All
-            </button>
-            <button className={props.filter === 'Active' ? 'filter' : ''}
+            </Button>
+            <Button variant={props.filter === 'Active' ? 'contained' : 'text'}
                     onClick={filterActive}>Active
-            </button>
-            <button className={props.filter === 'Completed' ? 'filter' : ''}
+            </Button>
+            <Button variant={props.filter === 'Completed' ? 'contained' : 'text'}
                     onClick={filterCompleted}>Completed
-            </button>
+            </Button>
         </div>
     )
 }
