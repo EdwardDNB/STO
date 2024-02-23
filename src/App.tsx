@@ -13,7 +13,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import {Grid, Paper} from "@mui/material";
 
 
-type ToDoListsTypes = {
+export type ToDoListsTypes = {
     id: string,
     title: string,
     filter: FilterValuesTypes
@@ -23,19 +23,19 @@ type TaskStateType = {
 }
 
 function App() {
-    const task1 = uuid()
-    const task2 = uuid()
+    const todolist1 = uuid()
+    const todolist2 = uuid()
     const [ToDoLists, setToDoLists] = useState<Array<ToDoListsTypes>>([
-        {id: task1, title: 'Posh Panamera', filter: 'All'},
-        {id: task2, title: 'Ford Mustang GT', filter: 'All'},
+        {id: todolist1, title: 'Porsche Panamera', filter: 'All'},
+        {id: todolist2, title: 'Ford Mustang GT', filter: 'All'},
     ])
     let [TasksObj, setTasksObj] = useState<TaskStateType>({
-        [task1]: [
+        [todolist1]: [
             {id: uuid(), title: 'Change engine oil', isDone: true},
             {id: uuid(), title: 'Change rubier', isDone: false},
             {id: uuid(), title: 'Washing', isDone: true},
         ],
-        [task2]: [
+        [todolist2]: [
             {id: uuid(), title: 'Change engine oil', isDone: true},
             {id: uuid(), title: 'Change rubier', isDone: false},
             {id: uuid(), title: 'Washing', isDone: true},
