@@ -9,6 +9,7 @@ export type RemoveTodolistActionType={
     export type AddTodolistActionType={
         type: 'ADD-TODOLIST',
         title: string
+        todoListId:string
     }
     export type ChangeTodolistTitleActionType={
         type: 'CHANGE-TITLE-TODOLIST',
@@ -28,7 +29,7 @@ export const todoListsReducer = (state: Array<ToDoListsTypes>, action: ActionsTy
             return state.filter(tl => tl.id != action.id)
         case 'ADD-TODOLIST':
             return [...state, {
-                id: uuid(),
+                id: action.todoListId,
                 title: action.title,
                 filter: 'All'
             }]
@@ -52,7 +53,7 @@ export const removeTodolistAC=(todoListId:string):RemoveTodolistActionType=>{
 return {type: 'REMOVE-TODOLIST', id: todoListId} //fabric func
 }
 export const addTodolistAC=(todoTitle:string):AddTodolistActionType=>{
-return {type: 'ADD-TODOLIST', title: todoTitle}
+return {type: 'ADD-TODOLIST', title: todoTitle,todoListId:uuid()}
 }
 export const changeTodolistTitleAC=(todoTitle:string,todoListId:string):ChangeTodolistTitleActionType=>{
 return {type: 'CHANGE-TITLE-TODOLIST', title: todoTitle,id:todoListId}
