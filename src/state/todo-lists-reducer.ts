@@ -1,22 +1,23 @@
-import {ToDoListsTypes} from "../App";
+import {ToDoListsTypes} from "./todolists-reducer.test";
 import {v4 as uuid} from "uuid";
-import {FilterValuesTypes} from "../Todolist";
 
-export type RemoveTodolistActionType={
+type FilterValuesTypes = 'All' | 'Active' | 'Completed'
+
+type RemoveTodolistActionType={
     type:'REMOVE-TODOLIST',
     id:string
     }
-    export type AddTodolistActionType={
+  type AddTodolistActionType={
         type: 'ADD-TODOLIST',
         title: string
         todoListId:string
     }
-    export type ChangeTodolistTitleActionType={
+   type ChangeTodolistTitleActionType={
         type: 'CHANGE-TITLE-TODOLIST',
         title: string,
         id:string
     }
-    export type ChangeTodolistFilterActionType={
+    type ChangeTodolistFilterActionType={
         type: 'CHANGE-FILTER-TODOLIST',
         filter: FilterValuesTypes,id:string
     }

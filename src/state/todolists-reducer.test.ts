@@ -1,5 +1,5 @@
 import {v4 as uuid} from "uuid";
-import {ToDoListsTypes} from "../App";
+
 import {
     addTodolistAC,
     changeTodolistFilterAC,
@@ -8,7 +8,11 @@ import {
     todoListsReducer
 } from "./todo-lists-reducer";
 import {FilterValuesTypes} from "../Todolist";
-
+export type ToDoListsTypes = {
+    id: string,
+    title: string,
+    filter: FilterValuesTypes
+}
 test('correct todolist removed', () => {
     const todolist1 = uuid()
     const todolist2 = uuid()
