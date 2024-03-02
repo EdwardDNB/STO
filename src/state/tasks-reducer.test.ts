@@ -19,7 +19,7 @@ test('remove task', () => {
     const endState = tasksReducer(startState, action)
     expect(endState["todolist1"].length).toBe(2)
     expect(endState["todolist2"].length).toBe(3)
-    expect(endState["todolist1"].every(task=>task.id!='1')).toBeTruthy()
+    expect(endState["todolist1"].every((task: { id: string; })=>task.id!='1')).toBeTruthy()
 
 })
 test('add task', () => {
