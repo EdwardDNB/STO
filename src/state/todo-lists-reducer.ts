@@ -3,11 +3,11 @@ import {v4 as uuid} from "uuid";
 
 type FilterValuesTypes = 'All' | 'Active' | 'Completed'
 
-type RemoveTodolistActionType={
+export type RemoveTodolistActionType={
     type:'REMOVE-TODOLIST',
     id:string
     }
-  type AddTodolistActionType={
+  export type AddTodolistActionType={
         type: 'ADD-TODOLIST',
         title: string
         todoListId:string
