@@ -8,6 +8,7 @@ type AddItemFormTypes = {
 }
 
 export function AddItemForm(props: AddItemFormTypes) {
+    console.log('render item form')
     let [text, setText] = useState<string>('')
     let [error, setError] = useState('')
     const addItemOnKeyDown = (e: KeyboardEvent) => {

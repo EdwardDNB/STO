@@ -23,8 +23,14 @@ export type RemoveTodolistActionType={
     }
 export type ActionsType=RemoveTodolistActionType|AddTodolistActionType
     |ChangeTodolistFilterActionType|ChangeTodolistTitleActionType
+export const todolist1 = uuid()
+export const todolist2 = uuid()
 
-export const todoListsReducer = (state: Array<ToDoListsTypes>, action: ActionsType):ToDoListsTypes[] => {
+const initialState:Array<ToDoListsTypes>=[
+    {id: todolist1, title: 'Porsche Panamera', filter: 'All'},
+    {id: todolist2, title: 'Ford Mustang GT', filter: 'All'}
+]
+export const todoListsReducer = (state: Array<ToDoListsTypes>=initialState, action: ActionsType):ToDoListsTypes[] => {
     switch (action.type) {
         case 'REMOVE-TODOLIST':
             return state.filter(tl => tl.id != action.id)
@@ -47,7 +53,7 @@ export const todoListsReducer = (state: Array<ToDoListsTypes>, action: ActionsTy
             }
             return [...state]
         default:
-            throw new Error('Action type not found')
+            return state
     }
 }
 export const removeTodolistAC=(todoListId:string):RemoveTodolistActionType=>{
