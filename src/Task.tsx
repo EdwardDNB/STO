@@ -23,8 +23,7 @@ export const Task = React.memo((props: TaskPropsType) => {
     const changeStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
         dispatch(changeTaskStatusAC(props.id, props.task.id, e.currentTarget.checked))
     }
-    console.log('task renderer',props.task)
-    return <div
+       return <div
         className={props.task.isDone ? 'is-done' : ''} key={props.task.id}>
         <Checkbox
             checked={props.task.isDone}

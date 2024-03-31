@@ -54,7 +54,7 @@ export function Todolist(props: PropsTypes) {
         dispatch(changeTodolistTitleAC(title, props.id))
     }
 
-    console.log('render todo-list', tasks)
+
     return (
         <div>
 

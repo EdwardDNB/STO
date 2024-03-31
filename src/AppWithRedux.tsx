@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import { TaskType, Todolist} from "./Todolist";
+import {TaskType, Todolist} from "./Todolist";
 import {AddItemForm} from "./AddItemForm";
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -33,7 +33,7 @@ function AppWithRedux() {
         dispatch(addTodolistAC(title))
     }, [])
 
-    console.log('App renderer')
+
     return (
         <div className={'App'}>
             <Box sx={{flexGrow: 1}}>
@@ -59,9 +59,8 @@ function AppWithRedux() {
             <Grid container spacing={2}>
 
                 {ToDoLists.map(tl => {
-                    return <Grid item xs={3}><Paper elevation={3} sx={{padding: '10px'}}>
+                    return <Grid key={tl.id} item xs={3}><Paper elevation={3} sx={{padding: '10px'}}>
                         <Todolist
-                            key={tl.id}
                             id={tl.id}
                             title={tl.title}
                         /></Paper></Grid>

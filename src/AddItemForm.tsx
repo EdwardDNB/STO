@@ -8,7 +8,6 @@ type AddItemFormTypes = {
 }
 
 export const AddItemForm=React.memo((props: AddItemFormTypes)=> {
-    console.log('render item form')
     let [text, setText] = useState<string>('')
     let [error, setError] = useState('')
     const addItemOnKeyDown = (e: KeyboardEvent) => {

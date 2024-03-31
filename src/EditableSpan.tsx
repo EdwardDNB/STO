@@ -3,14 +3,14 @@ import {TextField} from "@mui/material";
 
 type EditableSpanPropsTypes = {
     title: string,
-    changeTaskTitle:(taskTitle:string)=>void
+    changeTaskTitle: (taskTitle: string) => void
 }
 
 
 export function EditableSpan(props: EditableSpanPropsTypes) {
-    console.log('EditableSpan renderer')
     let [onFocus, setOnFocus] = useState(false)
-let[inputValue,setInputValue]=useState('')
+    let [inputValue, setInputValue] = useState('')
+
     function onFocusHandler() {
         setOnFocus(true)
         setInputValue(props.title)
@@ -20,14 +20,16 @@ let[inputValue,setInputValue]=useState('')
         setOnFocus(false)
         props.changeTaskTitle(inputValue)
     }
-function onChangeHandler(e:ChangeEvent<HTMLInputElement>) {
-    setInputValue(e.currentTarget.value)
-}
+
+    function onChangeHandler(e: ChangeEvent<HTMLInputElement>) {
+        setInputValue(e.currentTarget.value)
+    }
+
     return onFocus
         ? <TextField onBlur={onBlurFocusHandler}
-                 onChange={onChangeHandler}
-                 autoFocus={true}
-                 value={inputValue}></TextField>
+                     onChange={onChangeHandler}
+                     autoFocus={true}
+                     value={inputValue}></TextField>
         : <span onDoubleClick={onFocusHandler}>{props.title}</span>
 
 }
