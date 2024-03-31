@@ -8,6 +8,7 @@ type EditableSpanPropsTypes = {
 
 
 export function EditableSpan(props: EditableSpanPropsTypes) {
+    console.log('EditableSpan renderer')
     let [onFocus, setOnFocus] = useState(false)
 let[inputValue,setInputValue]=useState('')
     function onFocusHandler() {

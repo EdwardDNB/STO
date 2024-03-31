@@ -2,23 +2,20 @@ import {v4 as uuid} from "uuid";
 
 import {
     addTodolistAC,
-    changeTodolistFilterAC,
     changeTodolistTitleAC,
     removeTodolistAC,
     todoListsReducer
 } from "./todo-lists-reducer";
-import {FilterValuesTypes} from "../Todolist";
 export type ToDoListsTypes = {
     id: string,
     title: string,
-    filter: FilterValuesTypes
 }
 test('correct todolist removed', () => {
     const todolist1 = uuid()
     const todolist2 = uuid()
     const startState: Array<ToDoListsTypes> = [
-        {id: todolist1, title: 'Porsche Panamera', filter: 'All'},
-        {id: todolist2, title: 'Ford Mustang GT', filter: 'All'},
+        {id: todolist1, title: 'Porsche Panamera'},
+        {id: todolist2, title: 'Ford Mustang GT'},
     ]
     const endState = todoListsReducer(startState, removeTodolistAC(todolist1))
     expect(endState.length).toBe(1)
@@ -30,8 +27,8 @@ test('add todolist', () => {
     const todolistTitle = 'New Title'
 
     const startState: Array<ToDoListsTypes> = [
-        {id: todolist1, title: 'Porsche Panamera', filter: 'All'},
-        {id: todolist2, title: 'Ford Mustang GT', filter: 'All'},
+        {id: todolist1, title: 'Porsche Panamera'},
+        {id: todolist2, title: 'Ford Mustang GT'},
     ]
     const endState = todoListsReducer(startState, addTodolistAC (todolistTitle))
     expect(endState.length).toBe(3)
@@ -43,23 +40,11 @@ test('change todolist title', () => {
     const todolistTitle = 'New Title'
 
     const startState: Array<ToDoListsTypes> = [
-        {id: todolist1, title: 'Porsche Panamera', filter: 'All'},
-        {id: todolist2, title: 'Ford Mustang GT', filter: 'All'},
+        {id: todolist1, title: 'Porsche Panamera'},
+        {id: todolist2, title: 'Ford Mustang GT'},
     ]
     const endState = todoListsReducer(startState, changeTodolistTitleAC(todolistTitle,todolist2))
     expect(endState[0].title).toBe('Porsche Panamera')
     expect(endState[1].title).toBe(todolistTitle)
 })
-test('change todolist filter corrected', () => {
-    const todolist1 = uuid()
-    const todolist2 = uuid()
-    const todolistFilter:FilterValuesTypes = 'Completed'
 
-    const startState: Array<ToDoListsTypes> = [
-        {id: todolist1, title: 'Porsche Panamera', filter: 'All'},
-        {id: todolist2, title: 'Ford Mustang GT', filter: 'All'},
-    ]
-    const endState = todoListsReducer(startState, changeTodolistFilterAC(todolistFilter,todolist2))
-    expect(endState[0].filter).toBe('All')
-    expect(endState[1].filter).toBe(todolistFilter)
-})

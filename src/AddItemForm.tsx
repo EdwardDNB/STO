@@ -7,7 +7,7 @@ type AddItemFormTypes = {
     label: string
 }
 
-export function AddItemForm(props: AddItemFormTypes) {
+export const AddItemForm=React.memo((props: AddItemFormTypes)=> {
     console.log('render item form')
     let [text, setText] = useState<string>('')
     let [error, setError] = useState('')
@@ -41,4 +41,4 @@ export function AddItemForm(props: AddItemFormTypes) {
         />
         <IconButton size="large" onClick={addItemOnClick} color="primary"><AddCircleOutlineIcon/></IconButton>
             </div>
-}
+})

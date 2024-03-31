@@ -1,5 +1,5 @@
-import React from 'react';
-import {FilterValuesTypes, TaskType, Todolist} from "./Todolist";
+import React, {useCallback} from 'react';
+import { TaskType, Todolist} from "./Todolist";
 import {AddItemForm} from "./AddItemForm";
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -19,21 +19,21 @@ import {AppRootState} from "./state/store";
 export type ToDoListsTypes = {
     id: string,
     title: string,
-    filter: FilterValuesTypes
 }
 export type TaskStateType = {
     [key: string]: Array<TaskType>
 }
 
 function AppWithRedux() {
-    const ToDoLists=useSelector<AppRootState,ToDoListsTypes[]>(state=> state.todoLists)
+    const ToDoLists = useSelector<AppRootState, ToDoListsTypes[]>(state => state.todoLists)
     const dispatch = useDispatch()
 
 
-    function addTodoList(title: string) {
+    const addTodoList = useCallback((title: string) => {
         dispatch(addTodolistAC(title))
-    }
+    }, [])
 
+    console.log('App renderer')
     return (
         <div className={'App'}>
             <Box sx={{flexGrow: 1}}>
@@ -64,7 +64,6 @@ function AppWithRedux() {
                             key={tl.id}
                             id={tl.id}
                             title={tl.title}
-                            filter={tl.filter}
                         /></Paper></Grid>
                 })}
 
