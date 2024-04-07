@@ -16,7 +16,7 @@ export const Task = React.memo((props: TaskPropsType) => {
     const dispatch = useDispatch()
     const removeTask = () => dispatch(removeTaskAC(props.id, props.task.id))
 
-    function changeTaskTitle(title: string) {
+    function changeTaskTitleHandler(title: string) {
         dispatch(changeTaskTitleAC(props.id, props.task.id, title))
     }
 
@@ -29,7 +29,7 @@ export const Task = React.memo((props: TaskPropsType) => {
             checked={props.task.isDone}
             onChange={changeStatusHandler}
         />
-        <EditableSpan title={props.task.title} changeTaskTitle={changeTaskTitle}/>
+        <EditableSpan title={props.task.title} changeTaskTitle={changeTaskTitleHandler}/>
         <IconButton onClick={removeTask}>
             <Delete/>
         </IconButton>
