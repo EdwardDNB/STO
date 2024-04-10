@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {TaskType, Todolist} from "./Todolist";
 import {AddItemForm} from "./AddItemForm";
 import AppBar from '@mui/material/AppBar';
@@ -10,10 +10,11 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import {Grid, Paper} from "@mui/material";
 import {
-    addTodolistAC
+    addTodolistAC, addTodolistSank, initTodoLists
 } from "./state/todo-lists-reducer";
-import {useDispatch, useSelector} from "react-redux";
-import {AppRootState} from "./state/store";
+import { useSelector} from "react-redux";
+import {AppRootState, useAppDispatch} from "./state/store";
+import {initTasks} from "./state/tasks-reducer";
 
 
 export type ToDoListsTypes = {
@@ -25,12 +26,15 @@ export type TaskStateType = {
 }
 
 function AppWithRedux() {
+    const dispatch = useAppDispatch()
+    useEffect(() => {
+        dispatch(initTodoLists());
+        dispatch(initTasks());
+    }, [dispatch,initTodoLists,initTasks]);
     const ToDoLists = useSelector<AppRootState, ToDoListsTypes[]>(state => state.todoLists)
-    const dispatch = useDispatch()
-
 
     const addTodoList = useCallback((title: string) => {
-        dispatch(addTodolistAC(title))
+        dispatch(addTodolistSank(title))
     }, [])
 
 
@@ -58,13 +62,13 @@ function AppWithRedux() {
             <Box sx={{padding: '10px'}}><AddItemForm addItem={addTodoList} label={'add car'}/></Box>
             <Grid container spacing={2}>
 
-                {ToDoLists.map(tl => {
+                {ToDoLists?ToDoLists.map(tl => {
                     return <Grid key={tl.id} item xs={3}><Paper elevation={3} sx={{padding: '10px'}}>
                         <Todolist
-                            id={tl.id}
+                             id={tl.id}
                             title={tl.title}
                         /></Paper></Grid>
-                })}
+                }):<div></div>}
 
             </Grid>
 

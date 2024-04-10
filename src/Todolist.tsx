@@ -1,13 +1,13 @@
-import React, { useCallback, useState} from "react";
+import React, {useCallback, useState} from "react";
 import './Todolist.css'
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 import {Button, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
 import {changeTodolistTitleAC, removeTodolistAC} from "./state/todo-lists-reducer";
-import {useDispatch, useSelector} from "react-redux";
-import {addTaskAC} from "./state/tasks-reducer";
-import {AppRootState} from "./state/store";
+import {useSelector} from "react-redux";
+import {addTaskSank} from "./state/tasks-reducer";
+import {AppRootState, useAppDispatch} from "./state/store";
 import {Task} from "./Task";
 
 type PropsTypes = {
@@ -21,8 +21,8 @@ export type TaskType = {
 export type FilterValuesTypes = 'All' | 'Active' | 'Completed'
 
 
-export function Todolist(props: PropsTypes) {
-    const dispatch = useDispatch()
+export const Todolist=(props: PropsTypes)=>{
+    const dispatch = useAppDispatch()
     let tasks = useSelector<AppRootState, TaskType[]>(state => state.tasks[props.id])
     let [filter, setFilter] = useState<FilterValuesTypes>('All')
     if (filter === 'Completed') {
@@ -47,12 +47,13 @@ export function Todolist(props: PropsTypes) {
     }
 
     const addTask = useCallback((title: string) => {
-        dispatch(addTaskAC(props.id, title))
-    }, [dispatch, props.id, addTaskAC])
+        dispatch(addTaskSank(props.id, title))
+    }, [dispatch, props.id])
 
     function changeTodoListTitle(title: string) {
         dispatch(changeTodolistTitleAC(title, props.id))
     }
+
 
 
     return (
@@ -65,10 +66,10 @@ export function Todolist(props: PropsTypes) {
             </h3>
             <AddItemForm addItem={addTask} label={'add task'}/>
             <>
-                {
+                {tasks ?
                     tasks.map(task =>
                         <Task task={task} id={props.id} key={task.id}/>
-                    )
+                    ) : <div></div>
                 }
             </>
             <Button variant={filter === 'All' ? 'contained' : 'text'}

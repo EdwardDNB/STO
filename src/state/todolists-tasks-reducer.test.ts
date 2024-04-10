@@ -6,7 +6,7 @@ test('ids should be equaled', () => {
     const startTasksState: TaskStateType = {}
     const startTodoListState: Array<ToDoListsTypes> = []
 
-    const action = addTodolistAC('New todo list')
+    const action = addTodolistAC('New todo list',"12")
     //відправляємо єкшн у два редуктори але фабрику екшена потрібно так змінити щоб вона нам передавала щє згенерований айді
         // таким чином будемо превряти чи айді совпадає
     const endTaskState = tasksReducer(startTasksState, action)

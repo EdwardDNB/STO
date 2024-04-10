@@ -24,7 +24,7 @@ test('remove task', () => {
 })
 test('add task', () => {
 
-    const action = addTaskAC("todolist1", 'Repair disks')
+    const action = addTaskAC("todolist1", 'Repair disks',"12323")
     const endState = tasksReducer(startState, action)
     expect(endState["todolist1"].length).toBe(4)
     expect(endState["todolist2"].length).toBe(3)
@@ -51,7 +51,7 @@ test('change task title', () => {
 })
 test('add todo list', () => {
 
-    const action = addTodolistAC ('New title')
+    const action = addTodolistAC ('New title',"12")
     const endState = tasksReducer(startState, action)
 
     const keys=Object.keys(endState)
