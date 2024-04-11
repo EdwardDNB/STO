@@ -9,8 +9,7 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import {Grid, Paper} from "@mui/material";
-import {
-    addTodolistAC, addTodolistSank, initTodoLists
+import {addTodolistSank, initTodoLists
 } from "./state/todo-lists-reducer";
 import { useSelector} from "react-redux";
 import {AppRootState, useAppDispatch} from "./state/store";
@@ -30,12 +29,12 @@ function AppWithRedux() {
     useEffect(() => {
         dispatch(initTodoLists());
         dispatch(initTasks());
-    }, [dispatch,initTodoLists,initTasks]);
+    }, [dispatch]);
     const ToDoLists = useSelector<AppRootState, ToDoListsTypes[]>(state => state.todoLists)
 
     const addTodoList = useCallback((title: string) => {
         dispatch(addTodolistSank(title))
-    }, [])
+    }, [dispatch])
 
 
     return (
