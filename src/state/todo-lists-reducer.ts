@@ -2,7 +2,7 @@ import {ToDoListsTypes} from "./todolists-reducer.test";
 import {v4 as uuid} from "uuid";
 import axios from 'axios';
 import { Dispatch } from 'redux';
-import {changeTaskTitleAC} from "./tasks-reducer";
+
 
 
 
@@ -107,7 +107,7 @@ export const removeTodolistSank = (todoListId: string) => async (dispatch: Dispa
 export const updateTodolistTitleSank = (todoTitle: string, id: string) => async (dispatch: Dispatch) => {
     try {
         // Выполняем PUT запрос на сервер для обновления заголовка
-      const resp=  await instance.put(`/todolists/updateTitle/${id}`, {title: todoTitle});
+      await instance.put(`/todolists/updateTitle/${id}`, {title: todoTitle});
         dispatch(changeTodolistTitleAC(todoTitle,id))
 
     } catch (error) {

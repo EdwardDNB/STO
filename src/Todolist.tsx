@@ -4,7 +4,7 @@ import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 import {Button, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
-import {changeTodolistTitleAC, removeTodolistSank, updateTodolistTitleSank} from "./state/todo-lists-reducer";
+import { removeTodolistSank, updateTodolistTitleSank} from "./state/todo-lists-reducer";
 import {useSelector} from "react-redux";
 import {addTaskSank} from "./state/tasks-reducer";
 import {AppRootState, useAppDispatch} from "./state/store";
