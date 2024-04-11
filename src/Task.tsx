@@ -1,5 +1,11 @@
 import React, {ChangeEvent} from "react";
-import {changeTaskStatusAC, changeTaskTitleAC, removeTaskSank} from "./state/tasks-reducer";
+import {
+    changeTaskStatusAC,
+    changeTaskTitleAC,
+    removeTaskSank,
+    updateTaskStatusSank,
+    updateTaskTitleSank
+} from "./state/tasks-reducer";
 import {Checkbox, IconButton} from "@mui/material";
 import {EditableSpan} from "./EditableSpan";
 import {Delete} from "@mui/icons-material";
@@ -17,11 +23,11 @@ export const Task = React.memo((props: TaskPropsType) => {
     const removeTask = () => dispatch(removeTaskSank(props.id, props.task.id))
 
     function changeTaskTitleHandler(title: string) {
-        dispatch(changeTaskTitleAC(props.id, props.task.id, title))
+        dispatch(updateTaskTitleSank(props.id, props.task.id, title))
     }
 
     const changeStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        dispatch(changeTaskStatusAC(props.id, props.task.id, e.currentTarget.checked))
+        dispatch(updateTaskStatusSank(props.id, props.task.id, e.currentTarget.checked))
     }
        return <div
         className={props.task.isDone ? 'is-done' : ''} key={props.task.id}>

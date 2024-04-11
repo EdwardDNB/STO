@@ -4,7 +4,7 @@ import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 import {Button, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
-import {changeTodolistTitleAC, removeTodolistAC} from "./state/todo-lists-reducer";
+import {changeTodolistTitleAC, removeTodolistSank, updateTodolistTitleSank} from "./state/todo-lists-reducer";
 import {useSelector} from "react-redux";
 import {addTaskSank} from "./state/tasks-reducer";
 import {AppRootState, useAppDispatch} from "./state/store";
@@ -43,7 +43,7 @@ export const Todolist=(props: PropsTypes)=>{
     }
 
     function removeTodolist() {
-        dispatch(removeTodolistAC(props.id))
+        dispatch(removeTodolistSank(props.id))
     }
 
     const addTask = useCallback((title: string) => {
@@ -51,7 +51,7 @@ export const Todolist=(props: PropsTypes)=>{
     }, [dispatch, props.id])
 
     function changeTodoListTitle(title: string) {
-        dispatch(changeTodolistTitleAC(title, props.id))
+        dispatch(updateTodolistTitleSank(title, props.id))
     }
 
 

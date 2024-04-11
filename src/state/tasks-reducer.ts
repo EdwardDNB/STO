@@ -14,7 +14,7 @@ export type InitTaskActionType = {
 }
 export type AddTaskActionType = {
     type: 'ADD-TASK',
-    id:string,
+    id: string,
     todoListId: string,
     taskTitle: string
 }
@@ -98,8 +98,8 @@ export const tasksReducer = (state: TaskStateType = initialState, action: Action
 export const removeTaskAC = (todoListId: string, taskId: string): RemoveTaskActionType => {
     return {type: 'REMOVE-TASK', todoListId, taskId}
 }
-export const addTaskAC = (todoListId: string, taskTitle: string,id:string): AddTaskActionType => {
-    return {type: 'ADD-TASK', todoListId, taskTitle,id}
+export const addTaskAC = (todoListId: string, taskTitle: string, id: string): AddTaskActionType => {
+    return {type: 'ADD-TASK', todoListId, taskTitle, id}
 }
 export const changeTaskStatusAC = (todoListId: string, taskId: string,
                                    isDone: boolean): ChangeTaskStatusActionType => {
@@ -114,7 +114,7 @@ export const changeTaskTitleAC = (todoListId: string, taskId: string,
 export const initTasks = () => async (dispatch: Dispatch) => {
     try {
         await instance.get('/tasks').then((response) => {
-                     // Группировка задач по todolistId
+            // Группировка задач по todolistId
             interface Task {
                 _id: string;
                 id: string;
@@ -122,34 +122,37 @@ export const initTasks = () => async (dispatch: Dispatch) => {
                 title: string;
                 isDone: boolean;
             }
+
             const groupedTasks: TaskStateType = {};
             response.data.forEach((task: Task) => {
                 if (!groupedTasks[task.todolistId]) {
                     groupedTasks[task.todolistId] = [];
                 }
-                groupedTasks[task.todolistId].push({
+                groupedTasks[task.todolistId].unshift({
                     id: task.id,
                     title: task.title,
                     isDone: task.isDone
                 });
             });
-                     dispatch({type: 'INIT_TASKS', tasks: groupedTasks});
+            dispatch({type: 'INIT_TASKS', tasks: groupedTasks});
         })
     } catch (error) {
         console.error('Failed to fetch tasks:', error);
     }
 };
 export const addTaskSank = (todoListId: string, taskTitle: string) => async (dispatch: Dispatch) => {
+    const generatedTaskId = uuid()
     try {
+
         // Отправляем POST запрос на сервер для создания новой задачи
-        const response = await instance.post('/tasks', {
-            id: uuid(),
+        await instance.post('/tasks', {
+            id: generatedTaskId,
             todolistId: todoListId,
             title: taskTitle,
             isDone: false // Предполагаю, что изначально задача не выполнена
         });
-             // Если запрос выполнен успешно, диспетчеризуем экшен для добавления задачи в состояние
-        dispatch(addTaskAC(response.data.todolistId,response.data.title,response.data.id));
+        // Если запрос выполнен успешно, диспетчеризуем экшен для добавления задачи в состояние
+        dispatch(addTaskAC(todoListId, taskTitle, generatedTaskId));
     } catch (error) {
         // Если произошла ошибка при выполнении запроса, обрабатываем её здесь
         console.error('Failed to add task:', error);
@@ -169,4 +172,34 @@ export const removeTaskSank = (todoListId: string, taskId: string) => async (dis
         // Можно выполнить какие-то дополнительные действия, например, показать сообщение об ошибке
     }
 };
+// Функция для обновления заголовка задачи
+export const updateTaskTitleSank = (todoListId: string, taskId: string,
+                                    taskTitle: string) => async (dispatch: Dispatch) => {
+    try {
+        // Выполняем PUT запрос на сервер для обновления заголовка задачи
+        await instance.put(`/tasks/${taskId}`, {title: taskTitle});
 
+        dispatch(changeTaskTitleAC(todoListId, taskId, taskTitle))
+
+    } catch (error) {
+        // Если произошла ошибка, обрабатываем её здесь
+        console.error('Failed to update task title:', error);
+        // Можно выполнить какие-то дополнительные действия, например, показать сообщение об ошибке
+        throw error; // Пробрасываем ошибку дальше для обработки в компоненте
+    }
+};
+
+export const updateTaskStatusSank = (todoListId: string, taskId: string,
+                                     isDone: boolean) => async (dispatch: Dispatch) => {
+    try {
+        // Выполняем PUT запрос на сервер для обновления заголовка задачи
+        const response= await instance.put(`/tasks/changeTaskStatus/${taskId}`, {isDone});
+        dispatch(changeTaskStatusAC(todoListId, taskId, isDone))
+
+    } catch (error) {
+        // Если произошла ошибка, обрабатываем её здесь
+        console.error('Failed to update task status:', error);
+        // Можно выполнить какие-то дополнительные действия, например, показать сообщение об ошибке
+        throw error; // Пробрасываем ошибку дальше для обработки в компоненте
+    }
+};
