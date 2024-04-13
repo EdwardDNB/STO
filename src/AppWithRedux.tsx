@@ -4,6 +4,7 @@ import {ToDoLists} from "./ToDoLists";
 import {Header} from "./Header";
 import {AddCar} from "./AddCar";
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
+import {News} from "./News";
 
 export type ToDoListsTypes = {
     id: string,
@@ -36,14 +37,8 @@ function AppWithRedux() {
     );
 }
 
-const News = () => {
-    return (
-        <div>
-            <h2>News</h2>
-            {/* Добавьте контент новостей */}
-        </div>
-    );
-}
+
+
 const Worked = () => {
     return <>
         <AddCar/>
