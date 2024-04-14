@@ -12,8 +12,7 @@ import {
 } from "@mui/material";
 import {styled} from "@mui/system";
 import {AddNewsForm, Article} from "./AddNewsForm";
-import {v4 as uuid} from "uuid";
-import {Delete} from "@mui/icons-material";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const CenteredGrid = styled(Grid)`
   display: flex;
@@ -63,6 +62,11 @@ export const News = () => {
         setNewsArticles([newArticle, ...newsArticles])
     }
 
+    const onDeleteArticle = (articleId: string) => {
+        const updatedArticles = newsArticles.filter(article => article.id !== articleId);
+        setNewsArticles(updatedArticles);
+       // handleCloseArticle(); // закрыть диалог, если выбранная новость удалена
+    };
     return (
         <div style={{padding: '10px'}}>
             <AddNewsForm onSubmit={onSubmit}/>
@@ -70,6 +74,7 @@ export const News = () => {
                 <Dialog open={!!selectedArticle} onClose={handleCloseArticle}>
                     <DialogTitle>{selectedArticle.title}</DialogTitle>
                     <DialogContent dividers>
+
                         <img
                             src={selectedArticle.fullImageUrl}
                             alt={`Full view of ${selectedArticle.title}`}
@@ -100,6 +105,7 @@ export const News = () => {
                             <Card
                                 onClick={() => handleArticleClick(article)}
                             >
+
                                 <img
                                     src={article.imageUrl}
                                     alt={`Preview of ${article.title}`}
@@ -121,6 +127,15 @@ export const News = () => {
                                         {article.date}
                                     </Typography>
                                 </CardContent>
+                                <IconButton
+                                    sx={{ float: 'right', color: 'rgba(0, 0, 0, 0.54)' }}
+                                    onClick={(e) => {
+                                        e.stopPropagation()
+                                        onDeleteArticle(article.id)
+                                    }}
+                                >
+                                    <DeleteIcon />
+                                </IconButton>
                             </Card>
                         </Grid>
                     ))}
