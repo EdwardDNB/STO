@@ -33,10 +33,17 @@ export const AddItemForm=React.memo((props: AddItemFormTypes)=> {
     const changeInput = (e: { currentTarget: { value: SetStateAction<string> } }) =>
         setText(e.currentTarget.value);
     return <div>
-        <TextField id="outlined-multiline-static" label={error? error: props.label} variant="outlined"
-                   value={text} onKeyDown={addItemOnKeyDown}
-                   error={!!error}
-                   onChange={changeInput}
+        <TextField
+            id="outlined-multiline-static"
+            label={error ? error : props.label}
+            variant="outlined"
+            value={text}
+            onKeyDown={addItemOnKeyDown}
+            error={!!error}
+            onChange={changeInput}
+            multiline
+            rows={3} // Начальное количество строк
+            sx={{ "& textarea": { minHeight: "unset" } }}
         />
         <IconButton size="large" onClick={addItemOnClick} color="primary"><AddCircleOutlineIcon/></IconButton>
             </div>

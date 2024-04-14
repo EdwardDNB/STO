@@ -1,6 +1,19 @@
 import React from "react";
-import { Grid, Card, CardContent, Typography, Button, Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material";
-import { styled } from "@mui/system";
+import {
+    Grid,
+    Card,
+    CardContent,
+    Typography,
+    Button,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogActions, IconButton
+} from "@mui/material";
+import {styled} from "@mui/system";
+import {AddNewsForm, Article} from "./AddNewsForm";
+import {v4 as uuid} from "uuid";
+import {Delete} from "@mui/icons-material";
 
 const CenteredGrid = styled(Grid)`
   display: flex;
@@ -15,9 +28,10 @@ export const News = () => {
         imageUrl: string;
         fullImageUrl: string;
         content: string;
+        id: string;
     }>(null);
 
-    const newsArticles = [
+    const newsArticlesState: Article[] = [
         {
             title: "News Title 1",
             preview: "This is a short preview of the news article.",
@@ -25,6 +39,7 @@ export const News = () => {
             imageUrl: "./images/news1-small.jpg",
             fullImageUrl: "./images/news1-large.jpg",
             content: "This is the full content of the news article. It goes into detail about the topic.",
+            id: "1"
         },
         {
             title: "News Title 2",
@@ -33,9 +48,10 @@ export const News = () => {
             imageUrl: "./images/news2-small.jpg",
             fullImageUrl: "./images/news2-large.jpg",
             content: "This is the full content of the second news article. It provides in-depth information.",
+            id: "2"
         },
     ];
-
+    const [newsArticles, setNewsArticles] = React.useState<Article[]>(newsArticlesState)
     const handleArticleClick = (article: any) => {
         setSelectedArticle(article);
     };
@@ -43,9 +59,13 @@ export const News = () => {
     const handleCloseArticle = () => {
         setSelectedArticle(null);
     };
+    const onSubmit = (newArticle: Article) => {
+        setNewsArticles([newArticle, ...newsArticles])
+    }
 
     return (
-        <div className="font-roboto p-4">
+        <div style={{padding: '10px'}}>
+            <AddNewsForm onSubmit={onSubmit}/>
             {selectedArticle ? (
                 <Dialog open={!!selectedArticle} onClose={handleCloseArticle}>
                     <DialogTitle>{selectedArticle.title}</DialogTitle>
@@ -60,7 +80,7 @@ export const News = () => {
                                 borderRadius: "10px",
                             }}
                         />
-                        <Typography variant="body1" gutterBottom>
+                        <Typography variant="body1" gutterBottom style={{wordWrap: 'break-word'}}>
                             {selectedArticle.content}
                         </Typography>
                         <Typography variant="caption" color="textSecondary">
@@ -74,11 +94,10 @@ export const News = () => {
                     </DialogActions>
                 </Dialog>
             ) : (
-                <CenteredGrid container spacing={4}>
+                <CenteredGrid sx={{padding: '10px'}} container spacing={4}>
                     {newsArticles.map((article) => (
                         <Grid item key={article.title} xs={12} md={6}>
                             <Card
-                                className="bg-[#f5f5f5] p-4 rounded-lg shadow cursor-pointer"
                                 onClick={() => handleArticleClick(article)}
                             >
                                 <img

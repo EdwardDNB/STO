@@ -29,7 +29,8 @@ export function EditableSpan(props: EditableSpanPropsTypes) {
         ? <TextField onBlur={onBlurFocusHandler}
                      onChange={onChangeHandler}
                      autoFocus={true}
-                     value={inputValue}></TextField>
-        : <span onDoubleClick={onFocusHandler}>{props.title}</span>
+                     value={inputValue}
+                     style={{ wordWrap: 'break-word'}}></TextField>
+        : <span onDoubleClick={onFocusHandler} style={{ wordWrap: 'break-word'}}>{props.title}</span>
 
 }
