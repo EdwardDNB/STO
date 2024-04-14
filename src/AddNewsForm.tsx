@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { Grid, TextField, Button, Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material";
+import React, {useState} from "react";
+import {Grid, TextField, Button, Dialog, DialogTitle, DialogContent, DialogActions} from "@mui/material";
 import {v4 as uuid} from "uuid";
 
- export interface Article {
+export interface Article {
     title: string;
     preview: string;
     date: string;
@@ -10,15 +10,17 @@ import {v4 as uuid} from "uuid";
     fullImageUrl: string;
     content: string;
     id: string;
+    source: string;
+    sourceName: string;
 }
 
 interface AddNewsFormProps {
     onSubmit: (newArticle: Article) => void;
 }
 
-export const AddNewsForm: React.FC<AddNewsFormProps> = ({ onSubmit }) => {
+export const AddNewsForm: React.FC<AddNewsFormProps> = ({onSubmit}) => {
     const [open, setOpen] = useState(false);
-    const [newArticle, setNewArticle] = useState<Article>({
+    const emptyArticle={
         title: "",
         preview: "",
         date: "",
@@ -26,7 +28,10 @@ export const AddNewsForm: React.FC<AddNewsFormProps> = ({ onSubmit }) => {
         fullImageUrl: "",
         content: "",
         id: "",
-    });
+        source: "",
+        sourceName: "",
+    }
+    const [newArticle, setNewArticle] = useState<Article>(emptyArticle);
 
     const handleOpen = () => {
         setOpen(true);
@@ -37,22 +42,14 @@ export const AddNewsForm: React.FC<AddNewsFormProps> = ({ onSubmit }) => {
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setNewArticle({ ...newArticle, [name]: value });
+        const {name, value} = e.target;
+        setNewArticle({...newArticle, [name]: value});
     };
 
     const handleSubmit = () => {
-        setNewArticle({ ...newArticle, id: uuid() });
+        setNewArticle({...newArticle, id: uuid()});
         onSubmit(newArticle);
-        setNewArticle({
-            title: "",
-            preview: "",
-            date: "",
-            imageUrl: "",
-            fullImageUrl: "",
-            content: "",
-            id: "",
-        });
+        setNewArticle(emptyArticle);
         handleClose();
     };
 
@@ -96,20 +93,46 @@ export const AddNewsForm: React.FC<AddNewsFormProps> = ({ onSubmit }) => {
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
-                                name="imageUrl"
-                                label="Image URL"
-                                fullWidth
-                                value={newArticle.imageUrl}
-                                onChange={handleChange}
+                                type="file"
+                                label="Image Upload"
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                    const file = e.target.files?.[0];
+                                    if (file) {
+                                        const reader = new FileReader();
+                                        reader.onload = (event) => {
+                                            if (event.target) {
+                                                const imageUrl = event.target.result as string;
+                                                setNewArticle({...newArticle, imageUrl});
+                                            }
+                                        };
+                                        reader.readAsDataURL(file);
+                                    }
+                                }}
                             />
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
-                                name="fullImageUrl"
-                                label="Full Image URL"
-                                fullWidth
-                                value={newArticle.fullImageUrl}
-                                onChange={handleChange}
+                                type="file"
+                                label="Full Image Upload"
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                    const file = e.target.files?.[0];
+                                    if (file) {
+                                        const reader = new FileReader();
+                                        reader.onload = (event) => {
+                                            if (event.target) {
+                                                const fullImageUrl = event.target.result as string;
+                                                setNewArticle({...newArticle, fullImageUrl});
+                                            }
+                                        };
+                                        reader.readAsDataURL(file);
+                                    }
+                                }}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -120,6 +143,28 @@ export const AddNewsForm: React.FC<AddNewsFormProps> = ({ onSubmit }) => {
                                 rows={4}
                                 fullWidth
                                 value={newArticle.content}
+                                onChange={handleChange}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                name="source"
+                                label="Source"
+                                multiline
+                                rows={4}
+                                fullWidth
+                                value={newArticle.source}
+                                onChange={handleChange}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                name="sourceName"
+                                label="Source Name"
+                                multiline
+                                rows={4}
+                                fullWidth
+                                value={newArticle.sourceName}
                                 onChange={handleChange}
                             />
                         </Grid>
