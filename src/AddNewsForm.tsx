@@ -47,7 +47,7 @@ export const AddNewsForm: React.FC<AddNewsFormProps> = ({onSubmit}) => {
     };
 
     const handleSubmit = () => {
-        setNewArticle({...newArticle, id: uuid()});
+        setNewArticle(newArticle);
         onSubmit(newArticle);
         setNewArticle(emptyArticle);
         handleClose();
@@ -105,6 +105,7 @@ export const AddNewsForm: React.FC<AddNewsFormProps> = ({onSubmit}) => {
                                         reader.onload = (event) => {
                                             if (event.target) {
                                                 const imageUrl = event.target.result as string;
+                                                console.log(event.target)
                                                 setNewArticle({...newArticle, imageUrl});
                                             }
                                         };

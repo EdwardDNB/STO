@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {
     Grid,
     Card,
@@ -13,10 +13,9 @@ import {
 import {styled} from "@mui/system";
 import {AddNewsForm, Article} from "./AddNewsForm";
 import DeleteIcon from '@mui/icons-material/Delete';
-import news2SmallImage from './images/news2-small.jpg';
-import news1SmallImage from './images/news1-small.jpg';
-import news2LargeImage from "./images/news2-large.jpg";
-import news1LargeImage from "./images/news1-large.jpg";
+import {useAppDispatch, useAppSelector} from "./state/store";
+import {deleteArticle, fetchArticles, postArticle, removeArticleFromServer} from "./state/newsSlice";
+
 
 
 const CenteredGrid = styled(Grid)`
@@ -25,42 +24,14 @@ const CenteredGrid = styled(Grid)`
 `;
 
 export const News = () => {
+    const dispatch = useAppDispatch()
+    useEffect(() => {
+        dispatch(fetchArticles());
+    }, [dispatch]);
     const [selectedArticle, setSelectedArticle] = React.useState<null | Article>(null);
+    const newsArticles = useAppSelector<Article[]>(state => state.news.articles)
 
-    const newsArticlesState: Article[] = [
-        {
-            title: "Mercedes-AMG выпустит 1000-сильный электрический внедорожник",
-            preview: "Mercedes-AMG разрабатывает электрический флагманский внедорожник мощностью более 1000 л.с. Новая модель появится в 2026 году для конкуренции с BMW XM, Lotus Eletre, Aston Martin DBX и Lamborghini Urus.Mercedes-AMG разрабатывает электрический флагманский внедорожник мощностью более 1000 л.с. Новая модель появится в 2026 году для конкуренции с BMW XM, Lotus Eletre, Aston Martin DBX и Lamborghini Urus.",
-            date: "2023-01-01",
-            imageUrl: news1SmallImage,
-            fullImageUrl: news1LargeImage,
-            content: "Технические характеристики этого грядущего внедорожника впечатляют. По информации Autocar, его мощность составит более 1 000 л.с. (746 кВт), а в качестве платформы для электромобиля будет использована специализированная платформа AMG.EA. Среди ключевых особенностей - 800-вольтовая архитектура для более быстрой зарядки, тяговая батарея большой емкости и высокоэффективные электродвигатели Yasa. Автомобиль будет полноприводным, с функцией контроля вектора тяги и активной подвеской.\n" +
-                "\n" +
-                "Что касается размеров, то новый внедорожник будет значительно крупнее нынешнего Mercedes-AMG GLE 63. Ожидается, что его длина составит около 5 100 мм, а колесная база превысит 3 000 мм. Это обеспечит больше внутреннего пространства и, возможно, лучшие общие пропорции, подходящие для флагманской модели.\n" +
-                "\n" +
-                "Mercedes-AMG планирует начать производство этого амбициозного проекта на заводе в Зиндельфингене (Германия) с 2026 года. До начала производства ожидается презентация концепта, который покажет, чего потенциальные покупатели могут ожидать от этой модели.\n" +
-                "\n",
-            id: "1",
-            source: "https://www.autocar.co.uk/car-news/new-cars/mercedes-amg-primes-1000bhp-super-suv-next-bespoke-ev",
-            sourceName: "Autocar"
-        },
-        {
-            title: "Stellantis сделает электромобиль Fiat 500 более доступным",
-            preview: "Компания Stellantis объявила о том, что инвестирует 100 миллионов евро в усовершенствование модели Fiat 500e, чтобы сделать электромобиль более доступным и улучшить впечатления покупателей.",
-            date: "2023-02-01",
-            imageUrl: news2SmallImage,
-            fullImageUrl: news2LargeImage,
-            content: "Инвестиции направлены на расширение производства модели и не содержат подробностей о конкретных изменениях в ценах или технических обновлениях. \n" +
-                "\n" +
-                "Производство Fiat 500 Electric и Abarth 500e осуществляется на заводе Stellantis Mirafiori в Италии. Эта площадка также была выделена для выполнения дополнительных производственных задач, таких как изготовление до 600 тысяч электрифицированных трансмиссий с двойным сцеплением (eDCT) в год для новых гибридных автомобилей. Кроме этого трансмиссии eDCT выпускают на заводе Stellantis в Меце, Франция.\n" +
-                "\n" +
-                "Компания Stellantis выделила 240 миллионов евро на трансформацию своего завода в Мирафиори в уникальный в мировом масштабе центр дизайна, технических разработок, технологий, производства, управления цепочками поставок и утилизации. Эти усилия вписываются в концепцию \"Автомобильный парк Мирафиори 2030\", направленную на превращение Stellantis в компанию, специализирующуюся на технологиях устойчивой мобильности, и позиционируют производственный комплекс как один из трех наиболее значимых хабов компании в мире.",
-            id: "2",
-            source: "https://www.media.stellantis.com/em-en/corporate-communications/press/edct-production-launch-marks-another-milestone-in-240-million-transformation-of-iconic-italian-site-into-mirafiori-automotive-park-2030",
-            sourceName: "Stellantis"
-        },
-    ];
-    const [newsArticles, setNewsArticles] = React.useState<Article[]>(newsArticlesState)
+
     const handleArticleClick = (article: any) => {
         setSelectedArticle(article);
     };
@@ -69,12 +40,11 @@ export const News = () => {
         setSelectedArticle(null);
     };
     const onSubmit = (newArticle: Article) => {
-        setNewsArticles([newArticle, ...newsArticles])
+        dispatch(postArticle(newArticle))
     }
 
     const onDeleteArticle = (articleId: string) => {
-        const updatedArticles = newsArticles.filter(article => article.id !== articleId);
-        setNewsArticles(updatedArticles);
+        dispatch(removeArticleFromServer(articleId))
     };
     return (
         <div style={{padding: '10px'}}>
@@ -112,7 +82,7 @@ export const News = () => {
             ) : (
                 <CenteredGrid sx={{padding: '10px'}} container spacing={4}>
                     {newsArticles.map((article) => (
-                        <Grid item key={article.title} xs={6} md={6}>
+                        <Grid item key={article.id} xs={6} md={6}>
                             <Card
                                 onClick={() => handleArticleClick(article)}
                             >
@@ -124,8 +94,11 @@ export const News = () => {
                                     alt={`Preview of ${article.title}`}
                                     style={{
                                         borderRadius: "10px 10px 0 0",
-                                        maxWidth: "auto",
-                                        height: "auto",
+                                        objectFit: "cover",
+                                        maxWidth: "670px", // Максимальная ширина изображения
+                                        maxHeight: "470px", // Максимальная высота изображения
+                                        minWidth: "370px", // Минимальная ширина изображения
+                                        minHeight: "270px", // Минимальная высота изображения
                                     }}
                                 />
                                 <CardContent>
