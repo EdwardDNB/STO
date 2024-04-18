@@ -14,7 +14,7 @@ import {styled} from "@mui/system";
 import {AddNewsForm, Article} from "./AddNewsForm";
 import DeleteIcon from '@mui/icons-material/Delete';
 import {useAppDispatch, useAppSelector} from "./state/store";
-import {deleteArticle, fetchArticles, postArticle, removeArticleFromServer} from "./state/newsSlice";
+import {fetchArticles, postArticle, removeArticleFromServer} from "./state/newsSlice";
 
 
 
