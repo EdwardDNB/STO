@@ -4090,6 +4090,14 @@
   dependencies:
     "@types/node" "*"
 
+"@types/create-react-class@*":
+  version "15.6.8"
+  resolved "https://registry.yarnpkg.com/@types/create-react-class/-/create-react-class-15.6.8.tgz#5cc2fa17bcdda0e88b2cee9d416604178cc70541"
+  integrity sha512-s5HocgHXvN4Phoypsz8+4TLFreWRUrMcq9MHgwVleqNNR5EipSrFN49LCU/N7j8nIiQoRExY9n79LBrTDdsE1Q==
+  dependencies:
+    "@types/prop-types" "*"
+    "@types/react" "*"
+
 "@types/cross-spawn@^6.0.2":
   version "6.0.6"
   resolved "https://registry.yarnpkg.com/@types/cross-spawn/-/cross-spawn-6.0.6.tgz#0163d0b79a6f85409e0decb8dcca17147f81fd22"
@@ -4277,6 +4285,14 @@
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.17.0.tgz#d774355e41f372d5350a4d0714abb48194a489c3"
   integrity sha512-t7dhREVv6dbNj0q17X12j7yDG4bD/DHYX7o5/DbDxobP0HnGPgpRz2Ej77aL7TZT3DSw13fqUTj8J4mMnqa7WA==
 
+"@types/material-ui@^0.21.17":
+  version "0.21.17"
+  resolved "https://registry.yarnpkg.com/@types/material-ui/-/material-ui-0.21.17.tgz#18423ab578a212f259b664f9f8d38c84dcf3af91"
+  integrity sha512-3iyPhFkqI856UBWRxaO7ZZDpOtWM3XPl5gdKKkVBPn3TqNBdgDuFFhHx8BFLL85o5oYy5Y/SX5s0bs7a2VdLTw==
+  dependencies:
+    "@types/react" "*"
+    "@types/react-addons-linked-state-mixin" "*"
+
 "@types/mdx@^2.0.0":
   version "2.0.12"
   resolved "https://registry.yarnpkg.com/@types/mdx/-/mdx-2.0.12.tgz#38db34cc8999b982beaec01399620bee6c65ef2e"
@@ -4358,6 +4374,14 @@
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/@types/range-parser/-/range-parser-1.2.4.tgz#cd667bcfdd025213aafb7ca5915a932590acdcdc"
   integrity sha512-EEhsLsD6UsDM1yFhAvy0Cjr6VwmpMWqFBCb9w07wVugF7w9nfajxLuVmngTIpgS6svCnm6Vaw+MZhoDCKnOfsw==
+
+"@types/react-addons-linked-state-mixin@*":
+  version "0.14.27"
+  resolved "https://registry.yarnpkg.com/@types/react-addons-linked-state-mixin/-/react-addons-linked-state-mixin-0.14.27.tgz#8f2a31b9d988ce430775983bbb0d0965e8b537a3"
+  integrity sha512-yVxzQcKDiq32uziGQ/ka586qSFxz2ePYZ3dTCp4JHJKk/E6M0LP0R28ft3oFAnTGJRFBAB3if3pkP8w57Y04IA==
+  dependencies:
+    "@types/create-react-class" "*"
+    "@types/react" "*"
 
 "@types/react-dom@^18.0.0":
   version "18.2.1"

@@ -66,8 +66,11 @@ export const News = () => {
                         <Typography variant="body1" gutterBottom style={{wordWrap: 'break-word'}}>
                             {selectedArticle.content}
                         </Typography>
-                        <Typography variant="body2" color="textSecondary">
-                            Источник: <a href={selectedArticle.source}>{selectedArticle.sourceName}</a>
+                        <Typography variant="body2" color="textSecondary">{selectedArticle.source &&
+                            <Typography>Источник:
+                             <a href={selectedArticle.source}>{selectedArticle.sourceName}</a>
+                            </Typography>}
+
                         </Typography>
                         <Typography variant="caption" color="textSecondary">
                             {selectedArticle.date}

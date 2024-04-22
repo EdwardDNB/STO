@@ -6,9 +6,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import React from "react";
-import { Link } from 'react-router-dom';
-
-
+import {Link} from 'react-router-dom';
 
 
 export const Header = () => {
@@ -28,11 +26,16 @@ export const Header = () => {
                     <MenuIcon/>
                 </IconButton></Link>
 
-                <Typography  variant="h6" component="div" sx={{flexGrow: 1}}>
-                                        <Link to="/news" style={{
-                                            color: 'inherit',
-                                            textDecoration: 'none',
-                                        }}>News</Link>
+                <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
+                    <Link to="/news" style={{
+                        color: 'inherit',
+                        textDecoration: 'none',
+                        marginRight: '1rem'
+                    }}>News</Link>
+                    <Link to="/" style={{
+                        color: 'inherit',
+                        textDecoration: 'none',
+                    }}>Home</Link>
                 </Typography>
                 <Button color="inherit">Login</Button>
             </Toolbar>
