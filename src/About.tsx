@@ -20,7 +20,7 @@ export const About: React.FC = () => {
     const [language, setLanguage] = useState<string>('uk'); // Изначально выбран украинский язык
     const [phoneNumber, setPhoneNumber] = useState('');
     const [isValidPhoneNumber, setIsValidPhoneNumber] = useState(true);
-
+    const [isFormSubmitted, setIsFormSubmitted] = useState(false);
 
     const validatePhoneNumber = (value: string) => {
         const ukrainianPhoneNumberPattern = /^(050|066|067|068|073|091|093|094|095|096|097|098|099)\d{7}$/;
@@ -32,7 +32,7 @@ export const About: React.FC = () => {
     const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value.trim();
         setPhoneNumber(value);
-        if (value!=='') {
+        if (value !== '') {
             validatePhoneNumber(value);
         } else {
             setIsValidPhoneNumber(false);
@@ -42,10 +42,12 @@ export const About: React.FC = () => {
 
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        if (isValidPhoneNumber) {
+        if (isValidPhoneNumber && phoneNumber !== "") {
             console.log('Phone number is valid:', phoneNumber);
+            setIsFormSubmitted(true);
         } else {
             console.log('Phone number is not invalid');
+            setIsValidPhoneNumber(false);
         }
     };
     return (
@@ -114,9 +116,9 @@ export const About: React.FC = () => {
                                     variant="contained"
                                     color="primary"
                                     fullWidth
-                                    disabled={!isValidPhoneNumber}
+                                    disabled={!isValidPhoneNumber|| isFormSubmitted}
                                 >
-                                    {language === 'uk' ? 'ЗАПИСАТИСЯ' : 'SIGN UP'}
+                                    {isFormSubmitted ? (language === 'uk' ? 'ЗАЯВКА НА ДЗВІНОК ВІДПРАВЛЕНА' : 'APPLICATION FOR A CALL IS SENT') : (language === 'uk' ? 'ЗАПИСАТИСЯ' : 'SIGN UP')}
                                 </Button>
                             </form>
                         </CardContent>

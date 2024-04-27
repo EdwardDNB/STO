@@ -7,24 +7,16 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import React from "react";
 import {Link} from 'react-router-dom';
+import {Navbar} from "./Navbar";
 
 
 export const Header = () => {
     return <Box sx={{flexGrow: 1}}>
         <AppBar position="static">
             <Toolbar>
-                <Link to="/worked" style={{
-                    color: 'inherit',
-                    textDecoration: 'none',
-                }}><IconButton
-                    size="large"
-                    edge="start"
-                    color="inherit"
-                    aria-label="menu"
-                    sx={{mr: 2}}
-                >
-                    <MenuIcon/>
-                </IconButton></Link>
+
+                    <Navbar/>
+
 
                 <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
                     <Link to="/news" style={{
@@ -42,3 +34,4 @@ export const Header = () => {
         </AppBar>
     </Box>
 }
+

@@ -31,6 +31,6 @@ export function EditableSpan(props: EditableSpanPropsTypes) {
                      autoFocus={true}
                      value={inputValue}
                      style={{ wordWrap: 'break-word'}}></TextField>
-        : <span onDoubleClick={onFocusHandler} style={{ wordWrap: 'break-word'}}>{props.title}</span>
+        : <span onClick={onFocusHandler} style={{ wordWrap: 'break-word'}}>{props.title}</span>
 
 }
