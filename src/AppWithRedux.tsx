@@ -7,6 +7,7 @@ import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import {News} from "./News";
 import {About} from "./About";
 import {DailyWorks} from "./DailyWorks";
+import {PhoneList} from "./PhoneList";
 
 export type ToDoListsTypes = {
     id: string,
@@ -27,6 +28,7 @@ function AppWithRedux() {
                     <Route path="/news" Component={News}/>
                     <Route path="/worked" Component={DailyWorks}/>
                     <Route path="/" Component={About}/>
+                    <Route path="/phone-invoices" Component={PhoneList}/>
 
                 </Routes>
             </div>

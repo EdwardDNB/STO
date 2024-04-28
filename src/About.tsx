@@ -1,7 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {styled} from '@mui/system';
 import {Container, Grid, Typography, Button, TextField, Card, CardContent, CardHeader} from '@mui/material';
 import {Instagram, Facebook, Twitter, Mail} from '@mui/icons-material';
+import {addPhone, addPhoneHandle} from "./state/phoneSlice";
+import {useAppDispatch} from "./state/store";
 
 const RootContainer = styled('div')(({theme}) => ({
     minHeight: '100vh',
@@ -21,6 +23,7 @@ export const About: React.FC = () => {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [isValidPhoneNumber, setIsValidPhoneNumber] = useState(true);
     const [isFormSubmitted, setIsFormSubmitted] = useState(false);
+    const dispatch = useAppDispatch()
 
     const validatePhoneNumber = (value: string) => {
         const ukrainianPhoneNumberPattern = /^(050|066|067|068|073|091|093|094|095|096|097|098|099)\d{7}$/;
@@ -45,6 +48,7 @@ export const About: React.FC = () => {
         if (isValidPhoneNumber && phoneNumber !== "") {
             console.log('Phone number is valid:', phoneNumber);
             setIsFormSubmitted(true);
+            dispatch(addPhoneHandle(phoneNumber))
         } else {
             console.log('Phone number is not invalid');
             setIsValidPhoneNumber(false);
