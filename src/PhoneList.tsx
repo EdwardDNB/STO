@@ -1,13 +1,19 @@
-import React from 'react';
-import {removePhone,removeAllPhones,toggleCalled} from './state/phoneSlice';
+import React, {useEffect} from 'react';
+import {
+    fetchPhones,
+    deletePhone,
+    deleteAllPhones, togglePhoneCalled
+} from './state/phoneSlice';
 import {useAppDispatch, useAppSelector} from "./state/store";
-import {Grid, Card, CardContent, IconButton, Typography,Checkbox} from '@mui/material';
+import {Grid, Card, CardContent, IconButton, Typography, Checkbox} from '@mui/material';
 import {Phone as PhoneIcon, Delete as DeleteIcon} from '@mui/icons-material';
-
 
 
 export const PhoneList: React.FC = () => {
     const dispatch = useAppDispatch();
+    useEffect(() => {
+        dispatch(fetchPhones());
+    }, [dispatch]);
     const phones = useAppSelector(state => state.phones.phones);
 
     const handleCall = (phone: string) => {
@@ -16,16 +22,15 @@ export const PhoneList: React.FC = () => {
     };
 
     const handleRemove = (id: string) => {
-        dispatch(removePhone(id));
+        dispatch(deletePhone(id));
     };
     const handleCheckboxChange = (id: string) => {
-        dispatch(toggleCalled(id));
+        dispatch(togglePhoneCalled(id));
     };
-
 
     return (
         <>
-            <IconButton onClick={()=>dispatch(removeAllPhones())} sx={{width: 40, height: 40}} color="primary">
+            <IconButton onClick={() => dispatch(deleteAllPhones())} sx={{width: 40, height: 40}} color="primary">
                 <DeleteIcon fontSize="large"/>
             </IconButton>
             <Grid container spacing={2} sx={{margin: '10px'}}>
