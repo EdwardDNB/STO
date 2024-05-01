@@ -4,7 +4,7 @@ import {ToDoLists} from "./ToDoLists";
 
 const RootContainer = styled('div')({
     minHeight: '100vh',
-    backgroundImage: `url('http://localhost:3001/images/female-mechanic-working-shop-car.jpg')`,
+    backgroundImage: `url('http://localhost:3001/images/male-female-mechanics-working-shop-car-notes.jpg')`,
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     padding: '20px'

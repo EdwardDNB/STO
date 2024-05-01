@@ -16,13 +16,13 @@ export interface PhoneState {
 
 export const initialState: PhoneState = {
     phones: [
-        {id: "1", number: "0996373161", date: Date.now(), called: true},
+        /*{id: "1", number: "0996373161", date: Date.now(), called: true},
         {id: "2", number: "0996373161", date: Date.now(), called: false},
         {id: "3", number: "0996373161", date: Date.now(), called: true},
         {id: "4", number: "0996373161", date: Date.now(), called: true},
         {id: "5", number: "0996373161", date: Date.now(), called: true},
         {id: "6", number: "0996373161", date: Date.now(), called: true},
-
+*/
 
     ],
 };
@@ -67,7 +67,7 @@ export const fetchPhones = () => async (dispatch: AppDispatch) => {
 export const addPhoneHandle = (phoneNumber: string) => async (dispatch: AppDispatch) => {
     try {
         const id = uuid();
-        const newPhone = {id, number: phoneNumber, date: Date.now(), called: false};
+        const newPhone = {id, number:'+38'+phoneNumber, date: Date.now(), called: false};
         await instance.post('/phones/add', newPhone);
         dispatch(addPhone(newPhone));
     } catch (error) {
