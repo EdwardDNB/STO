@@ -30,7 +30,6 @@ export const About: React.FC = () => {
         const ukrainianPhoneNumberPattern = /^(050|066|067|068|073|091|093|094|095|096|097|098|099)\d{7}$/;
         const isValid = ukrainianPhoneNumberPattern.test(value);
         setIsValidPhoneNumber(isValid);
-        return isValid;
     };
 
     const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -114,12 +113,12 @@ export const About: React.FC = () => {
                                     variant="contained"
                                     color="primary"
                                     fullWidth
-                                    disabled={!isValidPhoneNumber|| isFormSubmitted}
+                                    disabled={!isValidPhoneNumber || isFormSubmitted}
                                 >
                                     {isFormSubmitted ? (language === 'uk' ? 'ЗАЯВКА НА ДЗВІНОК ВІДПРАВЛЕНА' : 'APPLICATION FOR A CALL IS SENT') : (language === 'uk' ? 'ЗАПИСАТИСЯ' : 'SIGN UP')}
                                 </Button>
                             </form>
-                            <Typography variant="body2" sx={{ opacity: 0.5, fontStyle: 'italic' }} >
+                            <Typography variant="body2" sx={{opacity: 0.5, fontStyle: 'italic'}}>
                                 {language === 'uk' ? '*Або зареєструйтеся та заповніть заявку самостійно' : '*Or register and fill out the application yourself'}
                             </Typography>
                         </CardContent>
