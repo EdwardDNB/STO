@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
 import {styled} from '@mui/system';
 import {Container, Grid, Typography, Button, TextField, Card, CardContent, CardHeader} from '@mui/material';
-import {Instagram, Facebook, Twitter, Mail} from '@mui/icons-material';
-import {addPhone, addPhoneHandle} from "./state/phoneSlice";
+import {addPhoneHandle} from "./state/phoneSlice";
 import {useAppDispatch} from "./state/store";
+import {PhoneNumber} from "./AboutPhoneNumber";
+import {SocialIcons} from "./AboutSocialIcons";
 
 const RootContainer = styled('div')(({theme}) => ({
     minHeight: '100vh',
@@ -13,7 +14,7 @@ const RootContainer = styled('div')(({theme}) => ({
     padding: theme.spacing(2),
 }));
 
-const StyledCard = styled(Card)(({theme}) => ({
+const StyledCard = styled(Card)(({}) => ({
     maxWidth: 400,
     margin: 'auto',
 }));
@@ -84,15 +85,8 @@ export const About: React.FC = () => {
                                 <Button variant={language === 'en' ? 'contained' : 'text'}
                                         onClick={() => setLanguage('en')} style={{cursor: 'pointer'}}>Eng</Button>
                             </Grid>
-                            <Grid item>
-                                <Typography variant="body1">063 456 67 89</Typography>
-                            </Grid>
-                            <Grid item>
-                                <Instagram/>
-                                <Facebook/>
-                                <Twitter/>
-                                <Mail/>
-                            </Grid>
+                            <PhoneNumber/>
+                            <SocialIcons/>
                         </Grid>
                     </Grid>
                 </Grid>
@@ -125,6 +119,9 @@ export const About: React.FC = () => {
                                     {isFormSubmitted ? (language === 'uk' ? 'ЗАЯВКА НА ДЗВІНОК ВІДПРАВЛЕНА' : 'APPLICATION FOR A CALL IS SENT') : (language === 'uk' ? 'ЗАПИСАТИСЯ' : 'SIGN UP')}
                                 </Button>
                             </form>
+                            <Typography variant="body2" sx={{ opacity: 0.5, fontStyle: 'italic' }} >
+                                {language === 'uk' ? '*Або зареєструйтеся та заповніть заявку самостійно' : '*Or register and fill out the application yourself'}
+                            </Typography>
                         </CardContent>
                     </StyledCard>
                 </Grid>
