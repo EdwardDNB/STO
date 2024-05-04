@@ -17,7 +17,7 @@ interface Props {
 }
 
 export const Authentication: React.FC<Props> = () => {
-    const [isLogin, setIsLogin] = useState<boolean>(true);
+    const [isRegistered, setIsRegistered] = useState<boolean>(true);
     const [isEmail, setIsEmail] = useState<boolean>(true);
     const [email, setEmail] = useState<string>('');
     const [phone, setPhone] = useState<string>('');
@@ -25,7 +25,7 @@ export const Authentication: React.FC<Props> = () => {
     const [name, setName] = useState<string>('');
 
     const handleToggle = () => {
-        setIsLogin(!isLogin);
+        setIsRegistered(!isRegistered);
     };
 
     const handleInputToggle = () => {
@@ -35,7 +35,7 @@ export const Authentication: React.FC<Props> = () => {
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         // Implement your login or registration logic here
-        if (isLogin) {
+        if (isRegistered) {
             // Login logic
             console.log('Logging in with:', isEmail ? email : phone, password);
         } else {
@@ -78,10 +78,10 @@ export const Authentication: React.FC<Props> = () => {
             <Card sx={{width: 400}}>
                 <CardContent>
                     <Typography variant="h5" gutterBottom>
-                        {isLogin ? 'Login' : 'Register'}
+                        {isRegistered ? 'Login' : 'Register'}
                     </Typography>
                     <form onSubmit={handleSubmit}>
-                        {!isLogin && (
+                        {!isRegistered && (
                             <>
                                 <TextField
                                     margin="normal"
@@ -95,56 +95,88 @@ export const Authentication: React.FC<Props> = () => {
                                 <TextField
                                     margin="normal"
                                     fullWidth
-                                    label={!isEmail ? 'Email' : 'Phone Number'}
+                                    label='Email'
                                     variant="outlined"
-                                    name={!isEmail ? 'email' : 'phone'}
-                                    value={!isEmail ? email : phone}
+                                    name='email'
+                                    value={email}
+                                    onChange={handleChange}
+                                />
+                                <TextField
+                                    margin="normal"
+                                    fullWidth
+                                    label='Phone Number'
+                                    variant="outlined"
+                                    name='phone'
+                                    value={phone}
+                                    onChange={handleChange}
+                                />
+                                <TextField
+                                    margin="normal"
+                                    fullWidth
+                                    label="Password"
+                                    type="password"
+                                    variant="outlined"
+                                    name="password"
+                                    value={password}
                                     onChange={handleChange}
                                 />
                             </>
                         )}
-                        <TextField
-                            margin="normal"
-                            fullWidth
-                            label={isEmail ? 'Email' : 'Phone Number'}
-                            variant="outlined"
-                            name={isEmail ? 'email' : 'phone'}
-                            value={isEmail ? email : phone}
-                            onChange={handleChange}
-                        />
-                        <TextField
-                            margin="normal"
-                            fullWidth
-                            label="Password"
-                            type="password"
-                            variant="outlined"
-                            name="password"
-                            value={password}
-                            onChange={handleChange}
-                        />
+                        {isRegistered && (
+                            <>{!isEmail ? (
+                                <TextField
+                                    margin="normal"
+                                    fullWidth
+                                    label={'Phone Number'}
+                                    variant="outlined"
+                                    name='phone'
+                                    value={phone}
+                                    onChange={handleChange}
+                                />):(
+                                <TextField
+                                    margin="normal"
+                                    fullWidth
+                                    label={'Email'}
+                                    variant="outlined"
+                                    name={'email'}
+                                    value={email}
+                                    onChange={handleChange}
+                                />)}
+                                <TextField
+                                    margin="normal"
+                                    fullWidth
+                                    label="Password"
+                                    type="password"
+                                    variant="outlined"
+                                    name="password"
+                                    value={password}
+                                    onChange={handleChange}
+                                />
+                            </>
+                        )}
                         <Grid container justifyContent="space-between" alignItems="center">
                             <FormControlLabel
-                                control={<Switch checked={isLogin} onChange={handleToggle}/>}
-                                label={isLogin ? 'Login' : 'Register'}
+                                control={<Switch checked={isRegistered} onChange={handleToggle}/>}
+                                label={isRegistered ? 'Login' : 'Register'}
                             />
-                            {isLogin && (
+                            {isRegistered && (
                                 <FormControlLabel
                                     control={<Switch checked={isEmail} onChange={handleInputToggle}/>}
                                     label={isEmail ? 'Email' : 'Phone Number'}
                                 />
                             )}
                             <Button type="submit" variant="contained" color="primary">
-                                {isLogin ? 'Login' : 'Register'}
+                                {isRegistered ? 'Login' : 'Register'}
                             </Button>
                         </Grid>
                     </form>
                     <Typography variant="body2" mt={2}>
-                        {isLogin ? (
+                        {isRegistered ? (
                             <Link href="#" onClick={() => console.log('Forgot password')}>
                                 Forgot password?
                             </Link>
                         ) : (
-                            <Link href="#" onClick={() => setIsLogin(true)}>
+                            <Link href="#" onClick={() => setIsRegistered(true)}>
                                 Already have an account? Login here
                             </Link>
                         )}
