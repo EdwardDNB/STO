@@ -1,8 +1,6 @@
 import Box from "@mui/material/Box";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import React from "react";
@@ -14,10 +12,7 @@ export const Header = () => {
     return <Box sx={{flexGrow: 1}}>
         <AppBar position="static">
             <Toolbar>
-
                     <Navbar/>
-
-
                 <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
                     <Link to="/news" style={{
                         color: 'inherit',
@@ -29,7 +24,10 @@ export const Header = () => {
                         textDecoration: 'none',
                     }}>Home</Link>
                 </Typography>
-                <Button color="inherit">Login</Button>
+                <Button color="inherit"> <Link to="/login" style={{
+                    color: 'inherit',
+                    textDecoration: 'none',
+                }}>Login</Link></Button>
             </Toolbar>
         </AppBar>
     </Box>

@@ -1,10 +1,7 @@
 import {useState} from 'react';
 import {styled} from '@mui/system';
 import {
-    AppBar,
-    Toolbar,
-    IconButton,
-    Typography,
+     IconButton,
     Drawer,
     List,
     ListItem,
@@ -52,21 +49,21 @@ export const Navbar = () => {
                             <ListItemIcon><ConstructionIcon/></ListItemIcon>
                             <ListItemText primary="Daily Works"/>
                         </ListItem>
-                        <ListItem component={Link} to="/phone-invoices">
+                        <ListItem component={Link} to="/phone-orders">
                             <ListItemIcon><PhoneIcon/></ListItemIcon>
-                            <ListItemText primary="Phone Invoices"/>
-                        </ListItem>
-                        <ListItem component={Link} to="/invoices">
-                            <ListItemIcon><DescriptionIcon/></ListItemIcon>
-                            <ListItemText primary="Invoices"/>
+                            <ListItemText primary="Phone Orders"/>
                         </ListItem>
                         <ListItem component={Link} to="/orders">
-                            <ListItemIcon><AssignmentIcon/></ListItemIcon>
+                            <ListItemIcon><DescriptionIcon/></ListItemIcon>
                             <ListItemText primary="Orders"/>
                         </ListItem>
-                        <ListItem component={Link} to="/clients">
+                        <ListItem component={Link} to="/invoices">
+                            <ListItemIcon><AssignmentIcon/></ListItemIcon>
+                            <ListItemText primary="Invoices"/>
+                        </ListItem>
+                        <ListItem component={Link} to="/customers">
                             <ListItemIcon><PersonIcon/></ListItemIcon>
-                            <ListItemText primary="Clients"/>
+                            <ListItemText primary="Customers"/>
                         </ListItem>
                     </List>
                 </DrawerContainer>
