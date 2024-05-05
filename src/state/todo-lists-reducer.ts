@@ -64,9 +64,15 @@ export const addTodolistAC = (todoTitle: string,todoListId:string): AddTodolistA
 export const changeTodolistTitleAC = (todoTitle: string, id: string): ChangeTodolistTitleActionType => {
     return {type: 'CHANGE-TITLE-TODOLIST', title: todoTitle, id}
 }
+
+// Получение токена из localStorage
+const token = localStorage.getItem('token');
 export const instance = axios.create({
       baseURL: 'http://localhost:3001',
     withCredentials: true,
+    headers: {
+    'Authorization': `Bearer ${token}`
+}
 
 });
 

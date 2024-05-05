@@ -11,6 +11,8 @@ import {
     Link,
     Box,
 } from '@mui/material';
+import {useAppDispatch} from "./state/store";
+import {handleLogin, registerUserHandle} from "./state/authSlice";
 
 interface Props {
     // Здесь вы можете добавить необходимые пропсы
@@ -23,7 +25,7 @@ export const Authentication: React.FC<Props> = () => {
     const [phone, setPhone] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [name, setName] = useState<string>('');
-
+    const dispatch = useAppDispatch()
     const handleToggle = () => {
         setIsRegistered(!isRegistered);
     };
@@ -36,10 +38,10 @@ export const Authentication: React.FC<Props> = () => {
         e.preventDefault();
         // Implement your login or registration logic here
         if (isRegistered) {
-            // Login logic
-            console.log('Logging in with:', isEmail ? email : phone, password);
+            dispatch(handleLogin( email , phone, password))
+            console.log('Logging in with:',  email , phone, password);
         } else {
-            // Registration logic
+            dispatch(registerUserHandle(name,password,phone,email))
             console.log('Registering with:', email, phone, password, name);
         }
     };

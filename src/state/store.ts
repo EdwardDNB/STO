@@ -3,7 +3,9 @@ import {tasksReducer} from "./tasks-reducer";
 import { configureStore, combineReducers } from '@reduxjs/toolkit'
 import newsReducer  from "./newsSlice";
 import phoneReducer  from "./phoneSlice";
+import authReducer  from "./authSlice";
 import { useDispatch, useSelector, TypedUseSelectorHook } from 'react-redux';
+
 
 
 
@@ -12,7 +14,8 @@ const rootReducers=combineReducers({
     todoLists:todoListsReducer,
     tasks:tasksReducer,
     news: newsReducer,
-    phones:phoneReducer
+    phones:phoneReducer,
+    auth:authReducer
 })
 export const store=configureStore({
     reducer: rootReducers
