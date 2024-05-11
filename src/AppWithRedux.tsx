@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {TaskType} from "./Todolist";
 import {Header} from "./Header";
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
@@ -7,6 +7,8 @@ import {About} from "./About";
 import {DailyWorks} from "./DailyWorks";
 import {PhoneList} from "./PhoneList";
 import {Authentication} from "./Authentication";
+import {useAppDispatch} from "./state/store";
+import {checkTokenValidity} from "./state/authSlice";
 
 export type ToDoListsTypes = {
     id: string,
@@ -17,7 +19,16 @@ export type TaskStateType = {
 }
 
 function AppWithRedux() {
+    const dispatch = useAppDispatch();
 
+    useEffect(() => {
+        // Проверяем наличие токена в localStorage
+        const token = localStorage.getItem('token');
+        if (token) {
+            // Выполняем запрос на сервер для проверки токена
+            dispatch(checkTokenValidity(token));
+        }
+    }, []);
 
     return (
         <Router>

@@ -88,12 +88,10 @@ export const handleLogin = (mail:string,phone:string, password:string) =>async(d
         const token = response.data.token;
         // Сохранение токена в localStorage
         localStorage.setItem('token', token);
+        console.log(localStorage)
         // Перенаправление на другую страницу или выполнение других действий
         dispatch(login(response.data.user))
-        console.log(response.data)
-        console.log(token)
-        console.log(localStorage)
-    } catch (error:any) {
+           } catch (error:any) {
         dispatch(setError(error.data.message))
         console.error('Ошибка входа:', error.data.message);
     }
@@ -108,6 +106,19 @@ export const handleLogout = () =>async(dispatch: AppDispatch) =>{
         console.error('Ошибка входа:', error.data.message);
     }
 };
-
+export const checkTokenValidity =  (token: string) =>async(dispatch: AppDispatch)=> {
+    console.log(token)
+    try {
+             // Если токен действителен, получаем данные пользователя и автоматически логиним его
+        const userData = await instance.get('/verify');
+        console.log(userData.data)
+        dispatch(login(userData.data));
+    } catch (error:any) {
+        console.error('Ошибка входа:', error.data.message);
+        // Если токен недействителен, очищаем localStorage и разлогиниваем пользователя
+        //localStorage.removeItem('token');
+        //dispatch(logout());
+    }
+};
 
 export default authSlice.reducer;

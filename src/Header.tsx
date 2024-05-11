@@ -6,6 +6,7 @@ import Button from "@mui/material/Button";
 import React from "react";
 import {Link} from 'react-router-dom';
 import {Navbar} from "./Navbar";
+import {AuthButton} from "./AuthButton";
 
 
 export const Header = () => {
@@ -24,10 +25,7 @@ export const Header = () => {
                         textDecoration: 'none',
                     }}>Home</Link>
                 </Typography>
-                <Button color="inherit"> <Link to="/login" style={{
-                    color: 'inherit',
-                    textDecoration: 'none',
-                }}>Login</Link></Button>
+                <AuthButton/>
             </Toolbar>
         </AppBar>
     </Box>

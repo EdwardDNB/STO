@@ -69,7 +69,7 @@ export const Authentication: React.FC<Props> = () => {
     return (
         <Box
             sx={{
-                backgroundImage: `url('/*https://source.unsplash.com/featured/1600x900/?nature*/')`,
+                backgroundImage: `url('https://source.unsplash.com/featured/1600x900/?nature')`,
                 backgroundSize: 'cover',
                 height: '100vh',
                 display: 'flex',
