@@ -1,25 +1,33 @@
 import React, {useEffect} from 'react';
-import { Button, Avatar } from '@mui/material';
-import { Link } from 'react-router-dom';
+import {Button, Avatar, Stack} from '@mui/material';
+import {Link} from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from "./state/store";
-import {checkTokenValidity} from "./state/authSlice";
+import {checkTokenValidity, logout} from "./state/authSlice";
 
 export const AuthButton: React.FC = () => {
+    const dispatch = useAppDispatch();
 
+    useEffect(() => {
+        // Проверяем наличие токена в localStorage
+        const token = localStorage.getItem('token');
+        if (token) {
+            // Выполняем запрос на сервер для проверки токена
+            dispatch(checkTokenValidity(token));
+        }
+    }, []);
     const isAuthenticated = useAppSelector(state => state.auth.isAuthenticated);
-    const user = useAppSelector(state => state.auth.user);
-    console.log(user)
+
+    const handleLogout = () => {
+        dispatch(logout());
+    };
     return (
         <>
             {isAuthenticated ? (
-                <Link to="/profile" style={{ textDecoration: 'none', color: 'inherit' }}>
-                    <Button startIcon={<Avatar alt="User Photo" src={user?.photo} sx={{ width: 40, height: 40 }} />}>
-                        {user?.firstName}
-                    </Button>
-                </Link>
+                <Button onClick={handleLogout} style={{textDecoration: 'none', color: 'inherit'}}>
+                    Logout</Button>
             ) : (
-                <Link to="/login" style={{ textDecoration: 'none', color: 'inherit' }}>
-                    <Button color="inherit">Login</Button>
+                <Link to="/login" style={{textDecoration: 'none', color: 'inherit'}}>
+                    <Button color="inherit">Login/Register</Button>
                 </Link>
             )}
         </>

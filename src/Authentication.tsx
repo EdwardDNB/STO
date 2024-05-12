@@ -11,8 +11,11 @@ import {
     Link,
     Box,
 } from '@mui/material';
-import {useAppDispatch} from "./state/store";
+import {useAppDispatch, useAppSelector} from "./state/store";
 import {handleLogin, registerUserHandle} from "./state/authSlice";
+import {About} from "./About";
+
+
 
 interface Props {
     // Здесь вы можете добавить необходимые пропсы
@@ -26,6 +29,13 @@ export const Authentication: React.FC<Props> = () => {
     const [password, setPassword] = useState<string>('');
     const [name, setName] = useState<string>('');
     const dispatch = useAppDispatch()
+    const error = useAppSelector(state => state.auth.error);
+    const isAuthenticated = useAppSelector(state => state.auth.isAuthenticated);
+    if (isAuthenticated) {
+        return <About/>; // Если аутентификация успешна, выполняем редирект на /about
+    }
+
+
     const handleToggle = () => {
         setIsRegistered(!isRegistered);
     };
@@ -38,11 +48,10 @@ export const Authentication: React.FC<Props> = () => {
         e.preventDefault();
         // Implement your login or registration logic here
         if (isRegistered) {
-            dispatch(handleLogin( email , phone, password))
-            console.log('Logging in with:',  email , phone, password);
+            dispatch(handleLogin(email, phone, password))
+
         } else {
-            dispatch(registerUserHandle(name,password,phone,email))
-            console.log('Registering with:', email, phone, password, name);
+            dispatch(registerUserHandle(name, password, phone, email))
         }
     };
 
@@ -134,7 +143,7 @@ export const Authentication: React.FC<Props> = () => {
                                     name='phone'
                                     value={phone}
                                     onChange={handleChange}
-                                />):(
+                                />) : (
                                 <TextField
                                     margin="normal"
                                     fullWidth
@@ -155,6 +164,11 @@ export const Authentication: React.FC<Props> = () => {
                                     onChange={handleChange}
                                 />
                             </>
+                        )}
+                        {error && (
+                            <Typography variant="body2" color="error" mb={2}>
+                                {error}
+                            </Typography>
                         )}
                         <Grid container justifyContent="space-between" alignItems="center">
                             <FormControlLabel

@@ -1,12 +1,12 @@
 import {useState} from 'react';
 import {styled} from '@mui/system';
 import {
-     IconButton,
+    IconButton,
     Drawer,
     List,
     ListItem,
     ListItemIcon,
-    ListItemText,
+    ListItemText, Button,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import ConstructionIcon from '@mui/icons-material/Construction';
@@ -16,12 +16,15 @@ import PhoneIcon from '@mui/icons-material/Phone';
 import DescriptionIcon from '@mui/icons-material/Description';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import PersonIcon from '@mui/icons-material/Person';
+import {logout} from "./state/authSlice";
+import {useAppDispatch} from "./state/store";
 
 const DrawerContainer = styled('div')({
     width: 250,
 });
 
 export const Navbar = () => {
+
     const [drawerOpen, setDrawerOpen] = useState(false);
 
     const toggleDrawer = () => {
@@ -65,6 +68,7 @@ export const Navbar = () => {
                             <ListItemIcon><PersonIcon/></ListItemIcon>
                             <ListItemText primary="Customers"/>
                         </ListItem>
+
                     </List>
                 </DrawerContainer>
             </Drawer>

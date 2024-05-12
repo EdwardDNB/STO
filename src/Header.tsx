@@ -25,7 +25,7 @@ export const Header = () => {
                         textDecoration: 'none',
                     }}>Home</Link>
                 </Typography>
-                <AuthButton/>
+                <AuthButton />
             </Toolbar>
         </AppBar>
     </Box>

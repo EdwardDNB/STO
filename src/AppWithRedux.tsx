@@ -19,16 +19,7 @@ export type TaskStateType = {
 }
 
 function AppWithRedux() {
-    const dispatch = useAppDispatch();
 
-    useEffect(() => {
-        // Проверяем наличие токена в localStorage
-        const token = localStorage.getItem('token');
-        if (token) {
-            // Выполняем запрос на сервер для проверки токена
-            dispatch(checkTokenValidity(token));
-        }
-    }, []);
 
     return (
         <Router>
