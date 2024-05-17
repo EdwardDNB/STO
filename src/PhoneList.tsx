@@ -6,7 +6,7 @@ import {
 } from './state/phoneSlice';
 import {useAppDispatch, useAppSelector} from "./state/store";
 import {Grid, Card, CardContent, IconButton, Typography, Checkbox} from '@mui/material';
-import {Phone as PhoneIcon, Delete as DeleteIcon} from '@mui/icons-material';
+import { Delete as DeleteIcon} from '@mui/icons-material';
 import {styled} from "@mui/system";
 import {PhoneAnimatedButton} from "./PhoneAnimatedButton";
 

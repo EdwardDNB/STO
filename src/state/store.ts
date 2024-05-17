@@ -4,6 +4,7 @@ import { configureStore, combineReducers } from '@reduxjs/toolkit'
 import newsReducer  from "./newsSlice";
 import phoneReducer  from "./phoneSlice";
 import authReducer  from "./authSlice";
+import ordersReducer  from "./ordersSlice";
 import { useDispatch, useSelector, TypedUseSelectorHook } from 'react-redux';
 
 
@@ -15,7 +16,8 @@ const rootReducers=combineReducers({
     tasks:tasksReducer,
     news: newsReducer,
     phones:phoneReducer,
-    auth:authReducer
+    auth:authReducer,
+    orders: ordersReducer
 })
 export const store=configureStore({
     reducer: rootReducers

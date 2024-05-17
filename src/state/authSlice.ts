@@ -12,7 +12,7 @@ interface User {
     phone: string;
     mail: string;
     photo: string;
-    roles: "manager"|"customer"|"staff";
+    roles: "manager" | "customer" | "staff";
     password: string
     registrationDate: number
 
@@ -72,7 +72,7 @@ export const registerUserHandle = (name: string, password: string, phone: string
             mail,
             registrationDate: Date.now(),
         }
-        const response=await instance.post('/register',newUser)
+        const response = await instance.post('/register', newUser)
         console.log(response)
         dispatch(register(newUser))
 
@@ -82,39 +82,38 @@ export const registerUserHandle = (name: string, password: string, phone: string
     }
 };
 // Предполагается, что token приходит в ответе после аутентификации
-export const handleLogin = (mail:string,phone:string, password:string) =>async(dispatch: AppDispatch) =>{
+export const handleLogin = (mail: string, phone: string, password: string) => async (dispatch: AppDispatch) => {
     try {
-        const response = await instance.post('/login', { mail,phone, password });
+        const response = await instance.post('/login', {mail, phone, password});
         const token = response.data.token;
         // Сохранение токена в localStorage
         localStorage.setItem('token', token);
-        console.log(localStorage)
         // Перенаправление на другую страницу или выполнение других действий
         dispatch(login(response.data.user))
-           } catch (error:any) {
+    } catch (error: any) {
         dispatch(setError('Login or password invalid'))
         console.error('Ошибка входа:', error.data.message);
     }
 };
-export const handleLogout = () =>async(dispatch: AppDispatch) =>{
+export const handleLogout = () => async (dispatch: AppDispatch) => {
     try {
         await instance.post('/logout');
         localStorage.setItem('token', "");
         dispatch(logout())
-    } catch (error:any) {
+    } catch (error: any) {
         dispatch(setError('Log eut error'))
         console.error('Ошибка входа:', error.data.message);
     }
 };
-export const checkTokenValidity =  (token: string) =>async(dispatch: AppDispatch)=> {
+export const checkTokenValidity = () => async (dispatch: AppDispatch) => {
 
     try {
-             // Если токен действителен, получаем данные пользователя и автоматически логиним его
+        // Если токен действителен, получаем данные пользователя и автоматически логиним его
         const userData = await instance.get('/verify');
-               dispatch(login(userData.data));
-    } catch (error:any) {
+        dispatch(login(userData.data));
+    } catch (error: any) {
         console.error('Ошибка валидации:', error.data.message);
-         //Если токен недействителен, очищаем localStorage и разлогиниваем пользователя
+        //Если токен недействителен, очищаем localStorage и разлогиниваем пользователя
         localStorage.removeItem('token');
         dispatch(logout());
     }

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {TaskType} from "./Todolist";
 import {Header} from "./Header";
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
@@ -7,8 +7,7 @@ import {About} from "./About";
 import {DailyWorks} from "./DailyWorks";
 import {PhoneList} from "./PhoneList";
 import {Authentication} from "./Authentication";
-import {useAppDispatch} from "./state/store";
-import {checkTokenValidity} from "./state/authSlice";
+import {OrdersList} from "./OrdersList";
 
 export type ToDoListsTypes = {
     id: string,
@@ -31,6 +30,7 @@ function AppWithRedux() {
                     <Route path="/" Component={About}/>
                     <Route path="/phone-orders" Component={PhoneList}/>
                     <Route path="/login" Component={Authentication}/>
+                    <Route path="/orders" Component={OrdersList}/>
 
                 </Routes>
             </div>
