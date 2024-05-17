@@ -105,7 +105,7 @@ export const handleLogout = () => async (dispatch: AppDispatch) => {
         console.error('Ошибка входа:', error.data.message);
     }
 };
-export const checkTokenValidity = () => async (dispatch: AppDispatch) => {
+export const checkTokenValidity = (token:string) => async (dispatch: AppDispatch) => {
 
     try {
         // Если токен действителен, получаем данные пользователя и автоматически логиним его
