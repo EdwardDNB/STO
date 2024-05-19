@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import {
     Button,
      } from '@mui/material';
-import {addOrder, Order} from "./state/ordersSlice";
+import { createOrder, Order} from "./state/ordersSlice";
 import {OrderFormDialog} from "./OrderFormDialog";
 import {useAppDispatch} from "./state/store";
 
@@ -14,8 +14,8 @@ export const OrderFormAdd: React.FC<OrderFormProps> = ({title }) => {
     const dispatch = useAppDispatch()
     const [editOpen, setEditOpen] = useState(false);
     const handleAddOrder = (order: Order) => {
-        dispatch(addOrder(order));
-        setEditOpen(true);
+        dispatch(createOrder(order));
+        setEditOpen(false);
     };
 const handleOnClose=()=>{
     setEditOpen(false);

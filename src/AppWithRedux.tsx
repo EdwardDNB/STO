@@ -1,21 +1,15 @@
 import React from 'react';
-import {TaskType} from "./Todolist";
 import {Header} from "./Header";
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import {News} from "./News";
 import {About} from "./About";
-import {DailyWorks} from "./DailyWorks";
+import { TodayWorks} from "./TodayWorks";
 import {PhoneList} from "./PhoneList";
 import {Authentication} from "./Authentication";
 import {OrdersList} from "./OrdersList";
 
-export type ToDoListsTypes = {
-    id: string,
-    title: string,
-}
-export type TaskStateType = {
-    [key: string]: Array<TaskType>
-}
+
+
 
 function AppWithRedux() {
 
@@ -26,7 +20,7 @@ function AppWithRedux() {
                 <Header/>
                 <Routes>
                     <Route path="/news" Component={News}/>
-                    <Route path="/worked" Component={DailyWorks}/>
+                    <Route path="/worked" Component={TodayWorks}/>
                     <Route path="/" Component={About}/>
                     <Route path="/phone-orders" Component={PhoneList}/>
                     <Route path="/login" Component={Authentication}/>

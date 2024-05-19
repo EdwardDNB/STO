@@ -1,8 +1,9 @@
 // src/state/ordersSlice.ts
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { v4 as uuid } from 'uuid';
-import axios from 'axios';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {v4 as uuid} from 'uuid';
 import {AppDispatch} from "./store";
+import {instance} from "./todo-lists-reducer";
+import {removeOrderTasksSank} from "./tasksSlice";
 
 
 export interface Order {
@@ -47,40 +48,41 @@ const ordersSlice = createSlice({
     },
 });
 
-export const { setOrders, addOrder, deleteOrder, updateOrder } = ordersSlice.actions;
+export const {setOrders, addOrder, deleteOrder, updateOrder} = ordersSlice.actions;
 
-export const fetchOrders= () => async (dispatch: AppDispatch) => {
+export const fetchOrders = () => async (dispatch: AppDispatch) => {
     try {
-        const response = await axios.get('/orders');
+        const response = await instance.get('/orders');
         dispatch(setOrders(response.data));
     } catch (error) {
         console.error('Failed to fetch orders:', error);
     }
 };
 
-export const createOrder = (order: Order) => async (dispatch: AppDispatch) =>  {
+export const createOrder = (order: Order) => async (dispatch: AppDispatch) => {
     const id = uuid();
-    const orderWithId={...order,id}
+    const orderWithId = {...order, id}
     try {
-        const response = await axios.post('/orders', orderWithId);
+        const response = await instance.post('/orders', orderWithId);
         dispatch(addOrder(response.data));
     } catch (error) {
         console.error('Failed to create order:', error);
     }
 };
 
-export const removeOrder = (id: string) => async (dispatch: AppDispatch)  => {
+export const removeOrder = (id: string) => async (dispatch: AppDispatch) => {
     try {
-        await axios.delete(`/orders/${id}`);
+        await instance.delete(`/orders/${id}`);
         dispatch(deleteOrder(id));
+        dispatch(removeOrderTasksSank(id));
     } catch (error) {
         console.error('Failed to delete order:', error);
     }
 };
 
-export const modifyOrder = (order: Order) => async (dispatch: AppDispatch) =>  {
+export const modifyOrder = (order: Order) => async (dispatch: AppDispatch) => {
     try {
-        const response = await axios.put(`/orders/${order.id}`, order);
+        const response = await instance.put(`/orders/${order.id}`, order);
         dispatch(updateOrder(response.data));
     } catch (error) {
         console.error('Failed to update order:', error);

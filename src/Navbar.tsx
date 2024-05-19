@@ -6,7 +6,7 @@ import {
     List,
     ListItem,
     ListItemIcon,
-    ListItemText, Button,
+    ListItemText
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import ConstructionIcon from '@mui/icons-material/Construction';
@@ -16,8 +16,7 @@ import PhoneIcon from '@mui/icons-material/Phone';
 import DescriptionIcon from '@mui/icons-material/Description';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import PersonIcon from '@mui/icons-material/Person';
-import {logout} from "./state/authSlice";
-import {useAppDispatch} from "./state/store";
+
 
 const DrawerContainer = styled('div')({
     width: 250,
@@ -50,7 +49,7 @@ export const Navbar = () => {
                     <List>
                         <ListItem component={Link} to="/worked">
                             <ListItemIcon><ConstructionIcon/></ListItemIcon>
-                            <ListItemText primary="Daily Works"/>
+                            <ListItemText primary="Today Works"/>
                         </ListItem>
                         <ListItem component={Link} to="/phone-orders">
                             <ListItemIcon><PhoneIcon/></ListItemIcon>

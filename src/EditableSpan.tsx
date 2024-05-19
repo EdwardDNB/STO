@@ -1,36 +1,65 @@
 import React, {ChangeEvent, useState} from "react";
-import {TextField} from "@mui/material";
+import {TextField, Typography, TypographyProps,TextFieldProps} from "@mui/material";
+
 
 type EditableSpanPropsTypes = {
-    title: string,
-    changeTaskTitle: (taskTitle: string) => void
-}
+    title: string;
+    changeTaskTitle: (taskTitle: string) => void;
+    fontSize?: number;
+    color?: string;
+    variant?: TypographyProps['variant'];
+    label?: string;
+    typographySx?: TypographyProps['sx'];
+    textFieldSx?: TextFieldProps['sx'];
+};
 
+export const EditableSpan: React.FC<EditableSpanPropsTypes> = ({
+                                                                   title,
+                                                                   changeTaskTitle,
+                                                                   fontSize = 14,
+                                                                   color = 'black',
+                                                                   variant = 'body1',
+                                                                   label,
+                                                                   typographySx,
+                                                                   textFieldSx
+                                                               }) => {
+    const [onFocus, setOnFocus] = useState(false);
+    const [inputValue, setInputValue] = useState(title);
 
-export function EditableSpan(props: EditableSpanPropsTypes) {
-    let [onFocus, setOnFocus] = useState(false)
-    let [inputValue, setInputValue] = useState('')
+    const handleFocus = () => {
+        setOnFocus(true);
+        setInputValue(title);
+    };
 
-    function onFocusHandler() {
-        setOnFocus(true)
-        setInputValue(props.title)
-    }
+    const handleBlur = () => {
+        setOnFocus(false);
+        changeTaskTitle(inputValue);
+    };
 
-    function onBlurFocusHandler() {
-        setOnFocus(false)
-        props.changeTaskTitle(inputValue)
-    }
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setInputValue(e.currentTarget.value);
+    };
 
-    function onChangeHandler(e: ChangeEvent<HTMLInputElement>) {
-        setInputValue(e.currentTarget.value)
-    }
-
-    return onFocus
-        ? <TextField onBlur={onBlurFocusHandler}
-                     onChange={onChangeHandler}
-                     autoFocus={true}
-                     value={inputValue}
-                     style={{ wordWrap: 'break-word'}}></TextField>
-        : <span onClick={onFocusHandler} style={{ wordWrap: 'break-word'}}>{props.title}</span>
-
-}
+    return onFocus ? (
+        <TextField
+            label={label}
+            onBlur={handleBlur}
+            onChange={handleChange}
+            autoFocus
+            value={inputValue}
+            fullWidth
+            InputProps={{
+                style: {fontSize, color},
+            }}
+            variant="outlined"
+        />
+    ) : (
+        <Typography
+            onClick={handleFocus}
+            variant={variant}
+            sx={{fontSize, color,...typographySx}}
+        >
+            {title}
+        </Typography>
+    );
+};

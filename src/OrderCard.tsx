@@ -3,37 +3,37 @@ import React, {useState} from 'react';
 import {Card, CardContent, Typography, IconButton} from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import {useDispatch} from 'react-redux';
-import {deleteOrder, Order, updateOrder} from './state/ordersSlice';
+import {modifyOrder, Order, removeOrder} from './state/ordersSlice';
 import {OrderFormDialog} from "./OrderFormDialog";
+import {useAppDispatch} from "./state/store";
 
 interface OrderCardProps {
     order: Order;
 }
 
 export const OrderCard: React.FC<OrderCardProps> = ({order}) => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const [editOpen, setEditOpen] = useState(false);
 
     const handleDelete = () => {
-        dispatch(deleteOrder(order.id));
+        dispatch(removeOrder(order.id));
     };
 
     const handleEditSubmit = (updatedOrder: Order) => {
-        dispatch(updateOrder(updatedOrder));
+        dispatch(modifyOrder(updatedOrder));
         setEditOpen(false);
     };
 
     return (
-        <Card style={{position: 'relative'}}>
-            <CardContent>
-                <Typography variant="h5" component="div">
+        <Card sx={{position: 'relative'}} >
+            <CardContent sx={{ flexGrow: 1 }}>
+                <Typography variant="h5" component="div" sx={{ wordBreak: 'break-word' }}>
                     {order.carBrand} {order.carModel}
                 </Typography>
-                <Typography color="text.secondary">
+                <Typography color="text.secondary" sx={{ wordBreak: 'break-word' }}>
                     License Plate: {order.licensePlate}
                 </Typography>
-                <Typography color="text.secondary">
+                <Typography color="text.secondary" sx={{ wordBreak: 'break-word' }}>
                     Service Type: {order.serviceType}
                 </Typography>
                 <Typography color="text.secondary">
@@ -42,7 +42,7 @@ export const OrderCard: React.FC<OrderCardProps> = ({order}) => {
                 <Typography color="text.secondary">
                     Desired Time: {order.desiredTime}
                 </Typography>
-                <Typography color="text.secondary">
+                <Typography color="text.secondary"  sx={{ wordBreak: 'break-word' }}>
                     Comments: {order.comments}
                 </Typography>
                 <Typography color="text.secondary">
