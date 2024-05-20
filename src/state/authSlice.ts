@@ -73,9 +73,10 @@ export const registerUserHandle = (name: string, password: string, phone: string
             registrationDate: Date.now(),
         }
         const response = await instance.post('/register', newUser)
-        console.log(response)
         dispatch(register(newUser))
-
+        const token = response.data.token;
+        // Сохранение токена в localStorage
+        localStorage.setItem('token', token);
     } catch (error) {
         dispatch(setError('Error register user'))
         console.error('Error register user:', error);
@@ -92,7 +93,7 @@ export const handleLogin = (mail: string, phone: string, password: string) => as
         dispatch(login(response.data.user))
     } catch (error: any) {
         dispatch(setError('Login or password invalid'))
-        console.error('Ошибка входа:', error.data.message);
+        console.error('Ошибка входа:', error);
     }
 };
 export const handleLogoutSank = () => async (dispatch: AppDispatch) => {
@@ -102,7 +103,7 @@ export const handleLogoutSank = () => async (dispatch: AppDispatch) => {
         dispatch(logout())
     } catch (error: any) {
         dispatch(setError('Log eut error'))
-        console.error('Ошибка входа:', error.data.message);
+        console.error('Ошибка входа:', error);
     }
 };
 export const checkTokenValidity = () => async (dispatch: AppDispatch) => {
@@ -112,7 +113,7 @@ export const checkTokenValidity = () => async (dispatch: AppDispatch) => {
         const userData = await instance.get('/verify');
         dispatch(login(userData.data));
     } catch (error: any) {
-        console.error('Ошибка валидации:', error.data.message);
+        console.error('Ошибка валидации:', error);
         //Если токен недействителен, очищаем localStorage и разлогиниваем пользователя
         localStorage.removeItem('token');
         dispatch(logout());
