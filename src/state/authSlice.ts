@@ -76,9 +76,9 @@ export const registerUserHandle = (name: string, password: string, phone: string
         console.log(response)
         dispatch(register(newUser))
 
-    } catch (error: any) {
+    } catch (error) {
         dispatch(setError('Error register user'))
-        console.error('Error register user:', error.data.message);
+        console.error('Error register user:', error);
     }
 };
 // Предполагается, что token приходит в ответе после аутентификации
@@ -95,7 +95,7 @@ export const handleLogin = (mail: string, phone: string, password: string) => as
         console.error('Ошибка входа:', error.data.message);
     }
 };
-export const handleLogout = () => async (dispatch: AppDispatch) => {
+export const handleLogoutSank = () => async (dispatch: AppDispatch) => {
     try {
         await instance.post('/logout');
         localStorage.setItem('token', "");
@@ -105,7 +105,7 @@ export const handleLogout = () => async (dispatch: AppDispatch) => {
         console.error('Ошибка входа:', error.data.message);
     }
 };
-export const checkTokenValidity = (token:string) => async (dispatch: AppDispatch) => {
+export const checkTokenValidity = () => async (dispatch: AppDispatch) => {
 
     try {
         // Если токен действителен, получаем данные пользователя и автоматически логиним его

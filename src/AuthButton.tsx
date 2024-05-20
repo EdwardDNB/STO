@@ -1,8 +1,8 @@
 import React, {useEffect} from 'react';
-import {Button, Avatar, Stack} from '@mui/material';
+import {Button} from '@mui/material';
 import {Link} from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from "./state/store";
-import {checkTokenValidity, logout} from "./state/authSlice";
+import {checkTokenValidity, handleLogoutSank} from "./state/authSlice";
 
 export const AuthButton: React.FC = () => {
     const dispatch = useAppDispatch();
@@ -12,13 +12,13 @@ export const AuthButton: React.FC = () => {
         const token = localStorage.getItem('token');
         if (token) {
             // Выполняем запрос на сервер для проверки токена
-            dispatch(checkTokenValidity(token));
+            dispatch(checkTokenValidity());
         }
-    }, []);
+    }, [dispatch]);
     const isAuthenticated = useAppSelector(state => state.auth.isAuthenticated);
 
     const handleLogout = () => {
-        dispatch(logout());
+        dispatch(handleLogoutSank());
     };
     return (
         <>
