@@ -5,6 +5,7 @@ import phoneReducer  from "./phoneSlice";
 import authReducer  from "./authSlice";
 import ordersReducer  from "./ordersSlice";
 import tasksReducer  from "./tasksSlice";
+import usersReducer  from "./userSlice";
 import { useDispatch, useSelector, TypedUseSelectorHook } from 'react-redux';
 
 
@@ -16,7 +17,9 @@ const rootReducers=combineReducers({
     news: newsReducer,
     phones:phoneReducer,
     auth:authReducer,
-    orders: ordersReducer
+    orders: ordersReducer,
+    users: usersReducer,
+
 })
 export const store=configureStore({
     reducer: rootReducers

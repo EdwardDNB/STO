@@ -2,21 +2,10 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {v4 as uuid} from "uuid";
 import {AppDispatch} from "./store";
 import {instance} from "./todo-lists-reducer";
+import {User} from "./userSlice";
 
 
-interface User {
-    id: string;
-    firstName: string;
-    lastName: string;
-    patronymic: string;
-    phone: string;
-    mail: string;
-    photo: string;
-    roles: "manager" | "customer" | "staff";
-    password: string
-    registrationDate: number
 
-}
 
 interface AuthState {
     isAuthenticated: boolean;
@@ -89,7 +78,6 @@ export const handleLogin = (mail: string, phone: string, password: string) => as
         const token = response.data.token;
         // Сохранение токена в localStorage
         localStorage.setItem('token', token);
-        // Перенаправление на другую страницу или выполнение других действий
         dispatch(login(response.data.user))
     } catch (error: any) {
         dispatch(setError('Login or password invalid'))

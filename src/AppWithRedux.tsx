@@ -7,6 +7,7 @@ import { TodayWorks} from "./TodayWorks";
 import {PhoneList} from "./PhoneList";
 import {Authentication} from "./Authentication";
 import {OrdersList} from "./OrdersList";
+import {UsersGrid} from "./UsersGrid";
 
 
 
@@ -25,6 +26,7 @@ function AppWithRedux() {
                     <Route path="/phone-orders" Component={PhoneList}/>
                     <Route path="/login" Component={Authentication}/>
                     <Route path="/orders" Component={OrdersList}/>
+                    <Route path="/customer" Component={UsersGrid}/>
 
                 </Routes>
             </div>

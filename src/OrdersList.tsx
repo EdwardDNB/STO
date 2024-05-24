@@ -1,10 +1,10 @@
 // src/OrdersList.tsx
 import React, {useEffect} from 'react';
-import { Box} from '@mui/material';
+import {Box, Grid} from '@mui/material';
 import {useAppDispatch, useAppSelector} from './state/store';
 import {OrderFormAdd} from './OrderFormAdd';
 import {fetchOrders} from "./state/ordersSlice";
-import {Orders} from "./Orders";
+import {OrderCard} from "./OrderCard";
 
 
 export const OrdersList: React.FC = () => {
@@ -26,7 +26,13 @@ export const OrdersList: React.FC = () => {
             <Box mb={2} style={{marginBottom: '20px'}}>
                 <OrderFormAdd title={'Leave a request for service'}/>
             </Box>
-            <Orders orders={orders}/>
+            <Grid container spacing={4} justifyContent="center">
+                {orders.map(order => (
+                    <Grid item xs={12} sm={6} md={4} key={order.id}>
+                        <OrderCard order={order}/>
+                    </Grid>
+                ))}
+            </Grid>
         </Box>
     );
 };

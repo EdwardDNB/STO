@@ -63,7 +63,7 @@ export const Navbar = () => {
                             <ListItemIcon><AssignmentIcon/></ListItemIcon>
                             <ListItemText primary="Invoices"/>
                         </ListItem>
-                        <ListItem component={Link} to="/customers">
+                        <ListItem component={Link} to="/customer">
                             <ListItemIcon><PersonIcon/></ListItemIcon>
                             <ListItemText primary="Customers"/>
                         </ListItem>
