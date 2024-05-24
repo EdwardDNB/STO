@@ -55,7 +55,7 @@ export const registerUserHandle = (name: string, password: string, phone: string
             lastName: '',
             patronymic: '',
             photo: '',
-            roles: 'customer',
+            role: 'customer',
             password,
             phone,
             mail,

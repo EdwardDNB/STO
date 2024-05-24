@@ -10,7 +10,7 @@ export interface User {
     phone: string;
     mail: string;
     photo: string;
-    roles: 'manager' | 'customer' | 'staff';
+    role: 'manager' | 'customer' | 'staff';
     password: string;
     registrationDate: number;
 }

@@ -33,7 +33,7 @@ export const UserCard: React.FC<UserCardProps> = ({ user, onEdit }) => {
                     {user.firstName} {user.lastName}
                 </Typography>
                 <Typography color="textSecondary">
-                    {user.roles}
+                    {user.role}
                 </Typography>
                 <Typography color="textSecondary">
                     {user.phone}
