@@ -24,7 +24,7 @@ interface EditUserDialogProps {
 
 export const EditUserDialog: React.FC<EditUserDialogProps> = ({ open, onClose, user, onEdit }) => {
     const [editedUser, setEditedUser] = useState<User>(user);
-    const [newPassword, setNewPassword] = useState('');
+
 
     const handleChange = (e: ChangeEvent<HTMLInputElement | { name?: string; value: unknown }>) => {
         const { name, value } = e.target;
@@ -36,9 +36,6 @@ export const EditUserDialog: React.FC<EditUserDialogProps> = ({ open, onClose, u
     };
 
 
-    const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setNewPassword(e.target.value);
-    };
 
     const handlePhotoChange = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
@@ -52,7 +49,7 @@ export const EditUserDialog: React.FC<EditUserDialogProps> = ({ open, onClose, u
     };
 
     const handleSave = () => {
-        onEdit({ ...editedUser, password: newPassword || editedUser.password });
+        onEdit(editedUser );
         onClose();
     };
 
@@ -100,7 +97,7 @@ export const EditUserDialog: React.FC<EditUserDialogProps> = ({ open, onClose, u
                     fullWidth
                     margin="dense"
                 />
-                <FormControl fullWidth margin="dense" >
+                {user.role==='manager'&&<FormControl fullWidth margin="dense" >
                     <InputLabel id="role-label">Role</InputLabel>
                     <Select
                         label={'Role'}
@@ -112,16 +109,8 @@ export const EditUserDialog: React.FC<EditUserDialogProps> = ({ open, onClose, u
                         <MenuItem value="customer">Customer</MenuItem>
                         <MenuItem value="staff">Staff</MenuItem>
                     </Select>
-                </FormControl>
-                <TextField
-                    label="New Password"
-                    type="password"
-                    name="password"
-                    value={newPassword}
-                    onChange={handlePasswordChange}
-                    fullWidth
-                    margin="dense"
-                />
+                </FormControl>}
+
                 <Button
                     variant="contained"
                     component="label"

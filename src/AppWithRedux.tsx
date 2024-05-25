@@ -8,6 +8,7 @@ import {PhoneList} from "./PhoneList";
 import {Authentication} from "./Authentication";
 import {OrdersList} from "./OrdersList";
 import {UsersGrid} from "./UsersGrid";
+import {Invoices} from "./Invoices";
 
 
 
@@ -27,6 +28,7 @@ function AppWithRedux() {
                     <Route path="/login" Component={Authentication}/>
                     <Route path="/orders" Component={OrdersList}/>
                     <Route path="/customer" Component={UsersGrid}/>
+                    <Route path="/invoices" Component={Invoices}/>
 
                 </Routes>
             </div>
