@@ -4,9 +4,9 @@ import { InvoicesGrid } from './InvoicesGrid';
 import { EditInvoiceDialog } from './EditInvoiceDialog';
 import {
     fetchInvoices,
-        updateInvoiceAsync,
+    updateInvoiceAsync,
     setPaymentDoneAsync,
-    Invoice,
+    Invoice, deleteInvoiceAsync,
 } from './state/invoicesSlice';
 import {selectInvoices, useAppDispatch, useAppSelector,selectLoading,selectError} from "./state/store";
 
@@ -47,6 +47,10 @@ export const Invoices: React.FC = () => {
         return <div>Error: {error}</div>;
     }
 
+    function handleDelete(id:string) {
+        dispatch(deleteInvoiceAsync(id));
+    }
+
     return (
 
         <div>
@@ -54,6 +58,7 @@ export const Invoices: React.FC = () => {
                 invoices={invoices}
                 onEditInvoice={handleEditClick}
                 onTogglePaymentDone={handleTogglePaymentDone}
+                handleDelete={handleDelete}
             />
             {currentInvoice && (
                 <EditInvoiceDialog

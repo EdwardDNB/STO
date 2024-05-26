@@ -8,9 +8,10 @@ interface InvoicesGridProps {
     invoices: Invoice[];
     onEditInvoice: (invoice: Invoice) => void;
     onTogglePaymentDone: (invoice: Invoice) => void;
+    handleDelete: (id:string) => void;
 }
 
-export const InvoicesGrid: React.FC<InvoicesGridProps> = ({ invoices, onEditInvoice, onTogglePaymentDone }) => {
+export const InvoicesGrid: React.FC<InvoicesGridProps> = ({ invoices, onEditInvoice, onTogglePaymentDone,handleDelete }) => {
     return (
         <Box
         sx={{
@@ -31,6 +32,7 @@ export const InvoicesGrid: React.FC<InvoicesGridProps> = ({ invoices, onEditInvo
                         invoice={invoice}
                         onEdit={() => onEditInvoice(invoice)}
                         onTogglePaymentDone={() => onTogglePaymentDone(invoice)}
+                        handleDelete={()=>handleDelete(invoice.id)}
                     />
                 </Grid>
             )):<div></div>}

@@ -103,13 +103,13 @@ export const fetchInvoices = () => async (dispatch: AppDispatch) => {
     }
 };
 
-export const addInvoiceAsync = (invoice: Invoice)=> async (dispatch: AppDispatch) => {
+export const addInvoiceAsync = (orderId:string)=> async (dispatch: AppDispatch) => {
     dispatch(setLoading(true));
     try {
-        const response = await instance.post('/invoices', invoice);
+        const response = await instance.post('/invoices', {orderId});
         dispatch(addInvoice(response.data));
     } catch (error) {
-        dispatch(setError(error as string));
+        dispatch(setError('Error create invoice'));
     } finally {
         dispatch(setLoading(false));
     }

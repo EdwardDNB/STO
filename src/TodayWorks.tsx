@@ -6,6 +6,7 @@ import {isToday} from 'date-fns';
 import {OrderCard} from "./OrderCard";
 import {Todolist} from "./Todolist";
 import {initTasks} from "./state/tasksSlice";
+import {GenerateInvoiceButton} from "./GenerateInvoiceButton";
 
 
 export const TodayWorks: React.FC = () => {
@@ -35,6 +36,7 @@ export const TodayWorks: React.FC = () => {
                         <Grid item xs={12} sm={6} md={4} key={order.id}>
                             <OrderCard order={order}/>
                             <Todolist id={order.id}/>
+                            <GenerateInvoiceButton orderId={order.id} />
                         </Grid>
                     ))}
                 </Grid>
