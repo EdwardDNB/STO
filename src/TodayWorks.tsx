@@ -7,16 +7,21 @@ import {OrderCard} from "./OrderCard";
 import {Todolist} from "./Todolist";
 import {initTasks} from "./state/tasksSlice";
 import {GenerateInvoiceButton} from "./GenerateInvoiceButton";
+import {About} from "./About";
 
 
 export const TodayWorks: React.FC = () => {
     const dispatch = useAppDispatch();
+    const orders = useAppSelector(state => state.orders.orders);
+    const isAuthenticated = useAppSelector(state => state.auth.isAuthenticated);
     useEffect(() => {
         dispatch(fetchOrders());
         dispatch(initTasks());
     }, [dispatch]);
+    if (!isAuthenticated) {
+        return <About/>;
+    }
 
-    const orders = useAppSelector(state => state.orders.orders);
 
     // Filter orders with today's date
     const todayOrders = orders.filter(order => isToday(new Date(order.desiredDate)));

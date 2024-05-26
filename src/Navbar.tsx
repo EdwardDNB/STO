@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import React, {useState} from 'react';
 import {styled} from '@mui/system';
 import {
     IconButton,
@@ -16,6 +16,8 @@ import PhoneIcon from '@mui/icons-material/Phone';
 import DescriptionIcon from '@mui/icons-material/Description';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import PersonIcon from '@mui/icons-material/Person';
+import {useAppSelector} from "./state/store";
+
 
 
 const DrawerContainer = styled('div')({
@@ -23,38 +25,41 @@ const DrawerContainer = styled('div')({
 });
 
 export const Navbar = () => {
-
+    const isAuthenticated = useAppSelector(state => state.auth.isAuthenticated);
+    const userRole = useAppSelector(state => state.auth.user?.role);
     const [drawerOpen, setDrawerOpen] = useState(false);
-
+    if (!isAuthenticated) {
+        return <></>;
+    }
+    const text = userRole === 'manager' ? 'Customers' : 'Profile';
     const toggleDrawer = () => {
         setDrawerOpen(!drawerOpen);
     };
 
     return (
         <div>
-                     <IconButton
-                        size="large"
-                        edge="start"
-                        color="inherit"
-                        aria-label="menu"
-                        sx={{mr: 2}}
-                         onClick={toggleDrawer}>
-                        <MenuIcon/>
-                    </IconButton>
+            <IconButton
+                size="large"
+                edge="start"
+                color="inherit"
+                aria-label="menu"
+                sx={{mr: 2}}
+                onClick={toggleDrawer}>
+                <MenuIcon/>
+            </IconButton>
             <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer}>
                 <DrawerContainer>
                     <IconButton onClick={toggleDrawer}>
                         <ArrowBackIcon/>
                     </IconButton>
-                    <List>
-                        <ListItem component={Link} to="/worked">
-                            <ListItemIcon><ConstructionIcon/></ListItemIcon>
-                            <ListItemText primary="Today Works"/>
-                        </ListItem>
-                        <ListItem component={Link} to="/phone-orders">
+                    <List>{userRole !== 'customer' && <ListItem component={Link} to="/worked">
+                        <ListItemIcon><ConstructionIcon/></ListItemIcon>
+                        <ListItemText primary="Today Works"/>
+                    </ListItem>}
+                        {userRole === 'manager' && <ListItem component={Link} to="/phone-orders">
                             <ListItemIcon><PhoneIcon/></ListItemIcon>
                             <ListItemText primary="Phone Orders"/>
-                        </ListItem>
+                        </ListItem>}
                         <ListItem component={Link} to="/orders">
                             <ListItemIcon><DescriptionIcon/></ListItemIcon>
                             <ListItemText primary="Orders"/>
@@ -65,7 +70,7 @@ export const Navbar = () => {
                         </ListItem>
                         <ListItem component={Link} to="/customer">
                             <ListItemIcon><PersonIcon/></ListItemIcon>
-                            <ListItemText primary="Customers"/>
+                            <ListItemText primary={text}/>
                         </ListItem>
 
                     </List>

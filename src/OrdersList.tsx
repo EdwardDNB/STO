@@ -3,17 +3,28 @@ import React, {useEffect} from 'react';
 import {Box, Grid} from '@mui/material';
 import {useAppDispatch, useAppSelector} from './state/store';
 import {OrderFormAdd} from './OrderFormAdd';
-import {fetchOrders} from "./state/ordersSlice";
+import {fetchOrders, setOrdersClear} from "./state/ordersSlice";
 import {OrderCard} from "./OrderCard";
+import {About} from "./About";
+
 
 
 export const OrdersList: React.FC = () => {
     const dispatch = useAppDispatch()
-    useEffect(() => {
-        dispatch(fetchOrders());
-    }, [dispatch]);
     const orders = useAppSelector(state => state.orders.orders);
+    const isAuthenticated = useAppSelector(state => state.auth.isAuthenticated);
 
+    useEffect(() => {
+        if (isAuthenticated) {
+            dispatch(fetchOrders());
+        }
+        if (!isAuthenticated) {
+            dispatch(setOrdersClear());
+        }
+    }, [dispatch, isAuthenticated]);
+    if (!isAuthenticated) {
+        return <About/>;
+    }
     return (
         <Box
             sx={{

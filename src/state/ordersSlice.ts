@@ -45,10 +45,13 @@ const ordersSlice = createSlice({
                 state.orders[index] = action.payload;
             }
         },
+        setOrdersClear: (state) => {
+            state.orders = [];
+        },
     },
 });
 
-export const {setOrders, addOrder, deleteOrder, updateOrder} = ordersSlice.actions;
+export const {setOrders, addOrder, deleteOrder, updateOrder,setOrdersClear} = ordersSlice.actions;
 
 export const fetchOrders = () => async (dispatch: AppDispatch) => {
     try {
