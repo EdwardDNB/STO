@@ -1,27 +1,25 @@
-import React, {useEffect} from 'react';
-import {Grid, Box} from '@mui/material';
-import {useAppDispatch, useAppSelector} from './state/store';
-import {fetchUsers, editUser, User, setUsersClear} from './state/userSlice';
-import {UserCard} from './UserCard';
-import {About} from "./About";
-
-
+import React, { useEffect } from 'react';
+import { Grid, Box, Typography } from '@mui/material';
+import { useAppDispatch, useAppSelector } from './state/store';
+import { fetchUsers, editUser, User, setUsersClear } from './state/userSlice';
+import { UserCard } from './UserCard';
+import { About } from "./About";
 
 export const UsersGrid = () => {
     const dispatch = useAppDispatch();
     const users = useAppSelector(state => state.users.users);
     const isAuthenticated = useAppSelector(state => state.auth.isAuthenticated);
+
     useEffect(() => {
         if (isAuthenticated) {
             dispatch(fetchUsers());
-        }
-        if (!isAuthenticated) {
+        } else {
             dispatch(setUsersClear());
         }
-
     }, [dispatch, isAuthenticated]);
+
     if (!isAuthenticated) {
-        return <About/>;
+        return <About />;
     }
 
     const handleEditUser = (user: User) => {
@@ -31,23 +29,51 @@ export const UsersGrid = () => {
     return (
         <Box
             sx={{
-                backgroundImage: `url('https://source.unsplash.com/featured/1600x900/?background')`,
-                backgroundSize: 'cover',
-                minHeight: '100vh',
+                minHeight: "100vh",
                 p: 4,
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                flexDirection: 'column',
+                backgroundImage: `url("https://images.unsplash.com/photo-1517849845537-4d257902454a?q=80&w=2070")`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                position: "relative",
             }}
         >
-            <Grid container spacing={4}>
-                {users.map((user) => (
-                    <Grid item xs={12} sm={6} md={4} key={user.id}>
-                        <UserCard user={user} onEdit={handleEditUser}/>
-                    </Grid>
-                ))}
-            </Grid>
+            {/* Напівпрозорий затемнюючий шар */}
+            <Box
+                sx={{
+                    position: "absolute",
+                    inset: 0,
+                    background: "rgba(0,0,0,0.55)",
+                    backdropFilter: "blur(3px)",
+                    zIndex: 1,
+                }}
+            />
+
+            <Box sx={{ position: "relative", zIndex: 2 }}>
+                <Typography
+                    variant="h4"
+                    sx={{
+                        color: "#fff",
+                        textAlign: "center",
+                        fontWeight: 700,
+                        mb: 4,
+                        textShadow: "0 0 10px rgba(0,0,0,0.7)"
+                    }}
+                >
+                    Users Management
+                </Typography>
+
+                <Grid
+                    container
+                    spacing={4}
+                    justifyContent="center"
+                >
+                    {users.map((user) => (
+                        <Grid item xs={12} sm={6} md={4} key={user.id}>
+                            <UserCard user={user} onEdit={handleEditUser} />
+                        </Grid>
+                    ))}
+                </Grid>
+            </Box>
         </Box>
     );
 };

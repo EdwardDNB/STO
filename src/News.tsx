@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, { useEffect, useState } from "react";
 import {
     Grid,
     Card,
@@ -8,127 +8,206 @@ import {
     Dialog,
     DialogTitle,
     DialogContent,
-    DialogActions, IconButton, CardMedia
+    DialogActions,
+    IconButton,
+    CardMedia,
+    Box
 } from "@mui/material";
-import {styled} from "@mui/system";
-import {AddNewsForm, Article} from "./AddNewsForm";
+import { styled } from "@mui/system";
 import DeleteIcon from '@mui/icons-material/Delete';
-import {useAppDispatch, useAppSelector} from "./state/store";
-import {fetchArticles, postArticle, removeArticleFromServer} from "./state/newsSlice";
+
+import { AddNewsForm, Article } from "./AddNewsForm";
+import { useAppDispatch, useAppSelector } from "./state/store";
+import {
+    fetchArticles,
+    postArticle,
+    removeArticleFromServer
+} from "./state/newsSlice";
 
 
+// -------------------- STYLES ---------------------
 
-const CenteredGrid = styled(Grid)`
-  display: flex;
-  justify-content: center;
-`;
+const PageWrapper = styled('div')({
+    minHeight: "100vh",
+    padding: "30px",
+    backgroundImage:
+        'url("https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=2070")',
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    position: "relative",
+});
+
+const Overlay = styled('div')({
+    position: "absolute",
+    inset: 0,
+    background: "rgba(0, 0, 0, 0.55)",
+    backdropFilter: "blur(3px)",
+});
+
+const GlassCard = styled(Card)({
+    background: "rgba(255,255,255,0.08)",
+    borderRadius: 16,
+    backdropFilter: "blur(12px)",
+    color: "#fff",
+    border: "1px solid rgba(255,255,255,0.25)",
+    cursor: "pointer",
+    transition: "0.25s",
+    "&:hover": {
+        transform: "scale(1.02)",
+        background: "rgba(255,255,255,0.12)",
+    }
+});
+
+const AddButton = styled(Button)({
+    background: "#d32f2f",
+    fontWeight: 700,
+    color: "#fff",
+    "&:hover": {
+        background: "#b71c1c"
+    }
+});
+
+// -----------------------------------------------------
 
 export const News = () => {
-    const dispatch = useAppDispatch()
+    const dispatch = useAppDispatch();
+
+    const [selectedArticle, setSelectedArticle] = useState<null | Article>(null);
+
+    const news = useAppSelector<Article[]>(state => state.news.articles);
+
+    const currentUserRole = useAppSelector(state => state.auth.user?.role);
+
+    const isManager = currentUserRole === "manager";
+
     useEffect(() => {
         dispatch(fetchArticles());
     }, [dispatch]);
-    const [selectedArticle, setSelectedArticle] = React.useState<null | Article>(null);
-    const newsArticles = useAppSelector<Article[]>(state => state.news.articles)
 
 
-    const handleArticleClick = (article: any) => {
-        setSelectedArticle(article);
-    };
-
-    const handleCloseArticle = () => {
-        setSelectedArticle(null);
-    };
     const onSubmit = (newArticle: Article) => {
-        dispatch(postArticle(newArticle))
-    }
-
-    const onDeleteArticle = (articleId: string) => {
-        dispatch(removeArticleFromServer(articleId))
+        dispatch(postArticle(newArticle));
     };
+
+    const onDelete = (id: string) => {
+        dispatch(removeArticleFromServer(id));
+    };
+
+
     return (
-        <div style={{padding: '10px'}}>
-            <AddNewsForm onSubmit={onSubmit}/>
-            {selectedArticle ? (
-                <Dialog open={!!selectedArticle} onClose={handleCloseArticle}>
-                    <DialogTitle>{selectedArticle.title}</DialogTitle>
-                    <DialogContent dividers>
-                        <CardMedia
-                            component="img"
-                            image={selectedArticle.fullImageUrl}
-                            alt={`Full view of ${selectedArticle.title}`}
-                            style={{
-                                maxWidth: "100%",
-                                height: "auto",
-                                borderRadius: "10px",
-                            }}
-                        />
-                        <Typography variant="body1" gutterBottom style={{wordWrap: 'break-word'}}>
-                            {selectedArticle.content}
-                        </Typography>
-                        <Typography variant="body2" color="textSecondary">{selectedArticle.source &&
-                            <Typography>Источник:
-                             <a href={selectedArticle.source}>{selectedArticle.sourceName}</a>
-                            </Typography>}
+        <PageWrapper>
+            <Overlay />
 
-                        </Typography>
-                        <Typography variant="caption" color="textSecondary">
-                            {selectedArticle.date}
-                        </Typography>
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={handleCloseArticle} color="primary">
-                            Back to list
-                        </Button>
-                    </DialogActions>
-                </Dialog>
-            ) : (
-                <CenteredGrid sx={{padding: '10px'}} container spacing={4}>
-                    {newsArticles.map((article) => (
-                        <Grid item key={article.id} xs={6} md={6}>
-                            <Card
-                                onClick={() => handleArticleClick(article)}
-                            >
+            <Box sx={{ position: "relative", zIndex: 2 }}>
 
+                {/* Кнопка додавання новини: лише менеджеру */}
+                {isManager && (
+                    <Box mb={3} textAlign="center">
+                        <AddButton variant="contained" onClick={() => setSelectedArticle({} as Article)}>
+                            + Додати новину
+                        </AddButton>
+                    </Box>
+                )}
+
+                {/* Форма додавання */}
+                {selectedArticle && selectedArticle.id === undefined && isManager && (
+                    <Dialog open={true} onClose={() => setSelectedArticle(null)}>
+                        <DialogTitle>Додати новину</DialogTitle>
+                        <DialogContent dividers>
+                            <AddNewsForm onSubmit={onSubmit} />
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={() => setSelectedArticle(null)}>Закрити</Button>
+                        </DialogActions>
+                    </Dialog>
+                )}
+
+                {/* Детальний перегляд новини */}
+                {selectedArticle && selectedArticle.id && (
+                    <Dialog open={true} onClose={() => setSelectedArticle(null)} maxWidth="md" fullWidth>
+                        <DialogTitle>{selectedArticle.title}</DialogTitle>
+                        <DialogContent dividers>
+
+                            <CardMedia
+                                component="img"
+                                image={selectedArticle.fullImageUrl}
+                                alt="article"
+                                style={{
+                                    width: "100%",
+                                    borderRadius: 12,
+                                    marginBottom: 20
+                                }}
+                            />
+
+                            <Typography variant="body1" mb={2}>
+                                {selectedArticle.content}
+                            </Typography>
+
+                            {selectedArticle.source && (
+                                <Typography variant="body2">
+                                    Джерело: <a href={selectedArticle.source}>{selectedArticle.sourceName}</a>
+                                </Typography>
+                            )}
+
+                            <Typography variant="caption" color="textSecondary">
+                                {selectedArticle.date}
+                            </Typography>
+                        </DialogContent>
+
+                        <DialogActions>
+                            <Button onClick={() => setSelectedArticle(null)}>Назад</Button>
+                        </DialogActions>
+                    </Dialog>
+                )}
+
+                {/* Список новин */}
+                <Grid container spacing={4} justifyContent="center">
+                    {news.map(article => (
+                        <Grid item key={article.id} xs={12} sm={6} md={4} lg={3}>
+                            <GlassCard onClick={() => setSelectedArticle(article)}>
                                 <CardMedia
                                     component="img"
-                                    height="auto"
                                     image={article.imageUrl}
-                                    alt={`Preview of ${article.title}`}
+                                    alt={article.title}
                                     style={{
-                                        borderRadius: "10px 10px 0 0",
-                                        objectFit: "cover",
-                                        maxWidth: "670px", // Максимальная ширина изображения
-                                        maxHeight: "470px", // Максимальная высота изображения
-                                        minWidth: "370px", // Минимальная ширина изображения
-                                        minHeight: "270px", // Минимальная высота изображения
+                                        height: 180,
+                                        borderRadius: "12px 12px 0 0",
+                                        objectFit: "cover"
                                     }}
                                 />
+
                                 <CardContent>
-                                    <Typography variant="h5" component="h2">
+                                    <Typography variant="h6" sx={{ color: "#fff", fontWeight: 700 }}>
                                         {article.title}
                                     </Typography>
-                                    <Typography variant="body2" color="textSecondary">
+
+                                    <Typography sx={{ opacity: 0.8 }}>
                                         {article.preview}
                                     </Typography>
-                                    <Typography variant="caption" color="textSecondary">
+
+                                    <Typography variant="caption" sx={{ opacity: 0.6 }}>
                                         {article.date}
                                     </Typography>
                                 </CardContent>
-                                <IconButton
-                                    sx={{float: 'right', color: 'rgba(0, 0, 0, 0.54)'}}
-                                    onClick={(e) => {
-                                        e.stopPropagation()
-                                        onDeleteArticle(article.id)
-                                    }}
-                                >
-                                    <DeleteIcon/>
-                                </IconButton>
-                            </Card>
+
+                                {/* Видалення — тільки менеджеру */}
+                                {isManager && (
+                                    <IconButton
+                                        sx={{ color: "#ff4444", float: "right", mb: 1 }}
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            onDelete(article.id);
+                                        }}
+                                    >
+                                        <DeleteIcon />
+                                    </IconButton>
+                                )}
+                            </GlassCard>
                         </Grid>
                     ))}
-                </CenteredGrid>
-            )}
-        </div>
+                </Grid>
+
+            </Box>
+        </PageWrapper>
     );
 };
