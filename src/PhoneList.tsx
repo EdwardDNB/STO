@@ -22,7 +22,8 @@ import { PhoneAnimatedButton } from "./PhoneAnimatedButton";
 const RootContainer = styled('div')(({ theme }) => ({
     minHeight: '100vh',
     backgroundImage:
-        'url("https://images.unsplash.com/photo-1581092160562-40aa08e78837?q=80&w=2070")',
+        'url("https://images.unsplash.com/photo-1581092160562-40aa08e78837?q=80&w=20700")',
+    background: 'rgba(0,0,0,0.55)',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     position: 'relative',

@@ -49,18 +49,7 @@ export const UsersGrid = () => {
             />
 
             <Box sx={{ position: "relative", zIndex: 2 }}>
-                <Typography
-                    variant="h4"
-                    sx={{
-                        color: "#fff",
-                        textAlign: "center",
-                        fontWeight: 700,
-                        mb: 4,
-                        textShadow: "0 0 10px rgba(0,0,0,0.7)"
-                    }}
-                >
-                    Users Management
-                </Typography>
+
 
                 <Grid
                     container
